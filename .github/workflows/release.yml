@@ -1,0 +1,102 @@
+name: Release Ivory Island (Windows 10/11 x64 Setup & Portable)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-package:
+    name: Build WinUI 3 Single-File EXE & Inno Setup Installer (windows-latest)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Setup Visual Studio MSBuild & Windows SDK Environment
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Verify Inno Setup 6 Compiler (ISCC.exe)
+        shell: pwsh
+        run: |
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) {
+            Write-Host "Installing Inno Setup 6 via Chocolatey..."
+            choco install innosetup -y --no-progress
+          }
+          if (-not (Test-Path $iscc)) {
+            throw "ISCC.exe not found at $iscc"
+          }
+          Write-Host "Verified ISCC.exe at: $iscc"
+
+      - name: Execute Release Build, xUnit Tests, Single-File Publish & Installer Compilation
+        shell: pwsh
+        run: |
+          ./scripts/build-release.ps1 -Configuration Release
+
+      - name: Verify Required Release Structure & Non-Empty Binaries
+        shell: pwsh
+        run: |
+          $requiredFiles = @(
+            "Release/IvoryIsland-Setup.exe",
+            "Release/IvoryIsland-Portable/IvoryIsland.exe",
+            "Release/Checksums-SHA256.txt",
+            "Release/README-INSTALL.txt"
+          )
+
+          foreach ($file in $requiredFiles) {
+            if (-not (Test-Path $file)) {
+              throw "Verification failed: Missing required release artifact '$file'"
+            }
+            $item = Get-Item $file
+            if ($item.Length -le 0) {
+              throw "Verification failed: Release artifact '$file' is empty (0 bytes)"
+            }
+            Write-Host ("Verified: {0} ({1:N0} bytes)" -f $item.FullName, $item.Length) -ForegroundColor Green
+          }
+
+          # Ensure both executables are genuine compiled Windows binaries (> 1 MB)
+          if ((Get-Item "Release/IvoryIsland-Setup.exe").Length -lt 1048576) {
+            throw "IvoryIsland-Setup.exe is unexpectedly small (< 1 MB)."
+          }
+          if ((Get-Item "Release/IvoryIsland-Portable/IvoryIsland.exe").Length -lt 1048576) {
+            throw "IvoryIsland-Portable/IvoryIsland.exe is unexpectedly small (< 1 MB)."
+          }
+
+          Write-Host "=== SHA-256 Checksums ===" -ForegroundColor Cyan
+          Get-Content "Release/Checksums-SHA256.txt"
+
+      - name: Upload Release Directory Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Release
+          path: |
+            Release/IvoryIsland-Setup.exe
+            Release/IvoryIsland-Portable/**
+            Release/Checksums-SHA256.txt
+            Release/README-INSTALL.txt
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Publish GitHub Release on Tag Push
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            Release/IvoryIsland-Setup.exe
+            Release/Checksums-SHA256.txt
+            Release/README-INSTALL.txt
+          generate_release_notes: true

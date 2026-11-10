@@ -1,0 +1,1 @@
+# Generated automatically by .github/workflows/release.yml or scripts/build-release.ps1 after compiling IvoryIsland-Setup.exe and IvoryIsland-Portable/IvoryIsland.exe

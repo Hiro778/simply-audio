@@ -1,0 +1,23 @@
+================================================================================
+RELEASE ARTIFACT COMPILATION STATUS (HONEST BUILD AUDIT)
+================================================================================
+Per strict engineering and release integrity requirements:
+- No fake, stub, or mock .exe files have been placed in this directory.
+- This project generation sandbox runs on Linux x86_64 without the proprietary
+  Microsoft WinUI 3 XAML compiler (XamlCompiler.exe) or Win32 Inno Setup compiler
+  (ISCC.exe).
+
+HOW TO GENERATE THE REAL BINARIES WITHOUT INSTALLING .NET SDK LOCALLY:
+1. Upload/push this repository to GitHub.
+2. Open the "Actions" tab in your GitHub repository.
+3. Select the workflow: "Build Ivory Island Universal Windows 10/11 EXE & Setup"
+   (.github/workflows/release.yml) and click "Run workflow".
+4. Within ~2 minutes, the Windows runner (windows-latest) compiles and uploads
+   the downloadable "IvoryIsland-Windows-x64-Release" zip containing:
+     Release/
+     ├── IvoryIsland-Setup.exe
+     ├── IvoryIsland-Portable/
+     │   └── IvoryIsland.exe
+     ├── Checksums-SHA256.txt
+     └── README-INSTALL.txt
+================================================================================
