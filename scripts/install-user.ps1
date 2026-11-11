@@ -14,7 +14,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
-$SourceDir = Join-Path $RepoRoot "dist\IvoryIsland-win-x64"
+$SourceDir = Join-Path $RepoRoot "Release\IvoryIsland-Portable"
 $InstallDir = Join-Path $env:LOCALAPPDATA "Programs\IvoryIsland"
 
 if (-not (Test-Path (Join-Path $SourceDir "IvoryIsland.exe"))) {

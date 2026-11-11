@@ -97,6 +97,7 @@ jobs:
         with:
           files: |
             Release/IvoryIsland-Setup.exe
+            Release/IvoryIsland-Portable/IvoryIsland.exe
             Release/Checksums-SHA256.txt
             Release/README-INSTALL.txt
           generate_release_notes: true
