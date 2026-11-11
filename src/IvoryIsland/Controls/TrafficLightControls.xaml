@@ -66,7 +66,8 @@
                 Background="{StaticResource TrafficLightGreenBrush}"
                 BorderBrush="#26000000"
                 Click="OnMaximizeButtonClick"
-                ToolTipService.ToolTip="Maximize / Restore Window"
+                DoubleTapped="OnMaximizeButtonDoubleTapped"
+                ToolTipService.ToolTip="Maximize / Restore Window (Double-click for Fullscreen)"
                 AutomationProperties.Name="Maximize or Restore Window">
             <TextBlock x:Name="MaximizeGlyph"
                        Text="+"

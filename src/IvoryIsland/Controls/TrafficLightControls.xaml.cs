@@ -44,4 +44,10 @@ public sealed partial class TrafficLightControls : UserControl
     {
         MaximizeRequested?.Invoke(this, EventArgs.Empty);
     }
+
+    private void OnMaximizeButtonDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+    {
+        e.Handled = true;
+        FullscreenRequested?.Invoke(this, EventArgs.Empty);
+    }
 }

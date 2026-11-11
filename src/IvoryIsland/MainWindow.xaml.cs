@@ -115,6 +115,7 @@ public sealed partial class MainWindow : Window, IDisposable
         TrafficLights.CloseRequested += (_, _) => Close();
         TrafficLights.MinimizeRequested += (_, _) => _presenter.Minimize();
         TrafficLights.MaximizeRequested += (_, _) => ToggleMaximizeRestore();
+        TrafficLights.FullscreenRequested += (_, _) => ToggleFullscreen();
 
         MainTabStrip.TabSelected += (_, tab) => SelectTab(tab);
         MainTabStrip.TabClosed += (_, tab) => CloseTab(tab);
