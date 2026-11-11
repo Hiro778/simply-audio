@@ -15,3 +15,8 @@ publish/
 # Temporary and test artifacts
 *.tmp
 *.log
+
+# Design references (do not package or push large binary references)
+ivory 2/
+auto.md
+ivor.md

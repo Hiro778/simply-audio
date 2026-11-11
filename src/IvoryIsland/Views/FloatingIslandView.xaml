@@ -3,6 +3,7 @@
     x:Class="IvoryIsland.Views.FloatingIslandView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:IvoryIsland.Controls"
     xmlns:models="using:IvoryIsland.Models"
     FontFamily="{StaticResource IvoryPrimaryFont}">
 
@@ -18,13 +19,27 @@
             <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
 
-        <Style x:Key="PlayPauseCircleButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="40" />
-            <Setter Property="Height" Value="40" />
-            <Setter Property="CornerRadius" Value="20" />
-            <Setter Property="Background" Value="#2D2B38" />
-            <Setter Property="Foreground" Value="#FDFCF8" />
-            <Setter Property="BorderThickness" Value="0" />
+        <Style x:Key="FloatingPlayPauseButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="38" />
+            <Setter Property="Height" Value="38" />
+            <Setter Property="CornerRadius" Value="19" />
+            <Setter Property="Background" Value="#F2FFFFFF" />
+            <Setter Property="BorderBrush" Value="{StaticResource IvoryBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1.2" />
+            <Setter Property="Foreground" Value="{StaticResource IvoryPrimaryTextBrush}" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="DismissCircleButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="28" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="Background" Value="{StaticResource IvoryGlassHoverBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource IvoryBorderSubtleBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Foreground" Value="{StaticResource IvoryPrimaryTextBrush}" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -34,565 +49,266 @@
     <Grid x:Name="RootLayoutGrid"
           HorizontalAlignment="Center"
           VerticalAlignment="Top"
-          Padding="6,2,6,6">
+          Padding="8,4,8,8">
         <Grid.RowDefinitions>
-            <RowDefinition Height="10" />
-            <RowDefinition Height="72" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- Top Pill Drag Handle Indicator -->
-        <Border x:Name="TopDragHandlePill"
+        <!-- FLOATING GLASS MEDIA CONTROLLER (Reference Image 2) -->
+        <Border x:Name="MainCapsuleBorder"
                 Grid.Row="0"
-                Width="34"
-                Height="4"
-                CornerRadius="2"
-                Background="#E6FDFCF8"
-                BorderBrush="#40242321"
-                BorderThickness="0.5"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
+                Height="68"
+                CornerRadius="34"
+                Background="{StaticResource IvoryGlassBackgroundBrush}"
+                BorderBrush="{StaticResource LuminousRimBorderBrush}"
+                BorderThickness="1.2"
+                Padding="10,0,12,0"
                 PointerPressed="OnDragSurfacePointerPressed"
                 PointerMoved="OnDragSurfacePointerMoved"
                 PointerReleased="OnDragSurfacePointerReleased"
-                ToolTipService.ToolTip="Drag to reposition Ivory Island (Double-click to center)"
-                DoubleTapped="OnDragHandleDoubleTapped" />
+                DoubleTapped="OnCapsuleDoubleTapped"
+                ToolTipService.ToolTip="Ivory Island Floating Media Controller (Drag to move, Double-click to center)">
 
-        <!-- ONE Unified Continuous Rounded Ivory Glass Capsule -->
-        <Border x:Name="MainCapsuleBorder"
-                Grid.Row="1"
-                Height="72"
-                MaxWidth="860"
-                CornerRadius="36"
-                Background="{StaticResource IvoryGlassBackgroundBrush}"
-                BorderBrush="{StaticResource IvoryBorderBrush}"
-                BorderThickness="1.2"
-                Padding="12,0,12,0"
-                PointerPressed="OnDragSurfacePointerPressed"
-                PointerMoved="OnDragSurfacePointerMoved"
-                PointerReleased="OnDragSurfacePointerReleased">
-            <Border.Shadow>
-                <ThemeShadow />
-            </Border.Shadow>
+            <Grid x:Name="CapsuleContentGrid" VerticalAlignment="Center" ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <!-- 0: Source App Indicator (Spotify / Browser) -->
+                    <ColumnDefinition Width="Auto" />
+                    <!-- 1: Artwork -->
+                    <ColumnDefinition Width="Auto" />
+                    <!-- 2: Track Metadata -->
+                    <ColumnDefinition Width="190" />
+                    <!-- 3: Transport Controls -->
+                    <ColumnDefinition Width="Auto" />
+                    <!-- 4: Waveform / Equalizer Visualizer -->
+                    <ColumnDefinition Width="Auto" />
+                    <!-- 5: Volume Slider & Readout -->
+                    <ColumnDefinition Width="Auto" />
+                    <!-- 6: Dismiss 'X' Button -->
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-            <Grid>
-                <!-- A. Full Media + Volume Capsule Layout -->
-                <Grid x:Name="FullMediaContentGrid"
-                      ColumnSpacing="12"
-                      VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="236" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <!-- SECTION 0: SOURCE APP BADGE (e.g. Spotify green circle with chevron 'v') -->
+                <Button x:Name="SourceDropdownButton"
+                        Grid.Column="0"
+                        Height="34"
+                        CornerRadius="17"
+                        Background="{StaticResource IvoryGlassSecondaryBrush}"
+                        BorderBrush="{StaticResource IvoryBorderSubtleBrush}"
+                        BorderThickness="1"
+                        Padding="6,0,8,0"
+                        Click="OnSourceDropdownToggleClick"
+                        ToolTipService.ToolTip="Switch Media Source"
+                        AutomationProperties.Name="Switch Media Source">
+                    <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                        <!-- Spotify Brand Icon -->
+                        <Grid x:Name="SpotifyIconGrid" Width="22" Height="22">
+                            <Ellipse Fill="#1ED760" />
+                            <Path Data="M 5.5,8.8 C 8.6,7.8 13.2,8.0 16.2,9.7 M 6.4,11.7 C 8.9,10.9 12.5,11.1 15.0,12.5 M 7.3,14.4 C 9.4,13.7 12.0,13.9 13.9,15.0"
+                                  Stroke="#202333"
+                                  StrokeThickness="1.5"
+                                  StrokeStartLineCap="Round"
+                                  StrokeEndLineCap="Round" />
+                        </Grid>
 
-                    <!-- SECTION 1: SOURCE SELECTOR (Left) -->
-                    <Border Grid.Column="0"
-                            Height="44"
-                            CornerRadius="22"
-                            Background="{StaticResource IvoryGlassSecondaryBrush}"
-                            BorderBrush="#66DCDAD3"
-                            BorderThickness="1"
-                            Padding="6,0,8,0"
-                            VerticalAlignment="Center">
-                        <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
-                            <Button x:Name="SpotifyQuickSourceButton"
-                                    Width="30"
-                                    Height="30"
-                                    CornerRadius="15"
-                                    Padding="0"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Click="OnSpotifyQuickSourceClick"
-                                    ToolTipService.ToolTip="Switch to Spotify">
-                                <Grid Width="26" Height="26">
-                                    <Ellipse Fill="#1ED760" />
-                                    <Path Data="M 6.5,10.2 C 10.2,9.0 15.6,9.2 19.2,11.2 M 7.6,13.6 C 10.6,12.6 14.8,12.8 17.8,14.5 M 8.6,16.8 C 11.1,16.0 14.2,16.2 16.5,17.5"
-                                          Stroke="#242321"
-                                          StrokeThickness="1.75"
-                                          StrokeStartLineCap="Round"
-                                          StrokeEndLineCap="Round" />
-                                </Grid>
-                            </Button>
+                        <!-- Browser Badge Icon (fallback) -->
+                        <Grid x:Name="BrowserIconGrid" Width="22" Height="22" Visibility="Collapsed">
+                            <Ellipse Fill="#E62117" />
+                            <Polygon Points="9,7 9,15 15,11" Fill="#FFFFFF" />
+                        </Grid>
 
-                            <Button x:Name="BrowserQuickSourceButton"
-                                    Width="30"
-                                    Height="30"
-                                    CornerRadius="15"
-                                    Padding="0"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Visibility="Collapsed"
-                                    Click="OnBrowserQuickSourceClick"
-                                    ToolTipService.ToolTip="Switch to Browser / YouTube Media Session">
-                                <Grid Width="26" Height="26">
-                                    <Ellipse x:Name="BrowserBadgeCircle" Fill="#E62117" />
-                                    <Polygon Points="10.5,8.5 10.5,17.5 17.8,13.0" Fill="#FDFCF8" />
-                                </Grid>
-                            </Button>
+                        <!-- Generic App Icon (fallback) -->
+                        <FontIcon x:Name="GenericSourceIcon" Glyph="&#xEC4F;" FontSize="12" Visibility="Collapsed" />
 
-                            <Border x:Name="GenericSourceBadge"
-                                    Width="26"
-                                    Height="26"
-                                    CornerRadius="13"
-                                    Background="{StaticResource IvoryControlBackgroundBrush}"
-                                    Visibility="Collapsed">
-                                <FontIcon x:Name="GenericSourceGlyph"
-                                          Glyph="&#xEC4F;"
-                                          FontSize="13"
-                                          Foreground="{StaticResource IvoryPrimaryTextBrush}" />
-                            </Border>
+                        <!-- Small Down Chevron -->
+                        <FontIcon Glyph="&#xE70D;" FontSize="9" Foreground="{StaticResource IvorySecondaryTextBrush}" />
+                    </StackPanel>
+                </Button>
 
-                            <Border x:Name="SessionCountBadge"
-                                    MinWidth="16"
-                                    Height="16"
-                                    CornerRadius="8"
-                                    Padding="4,0,4,0"
-                                    Background="{StaticResource IvoryControlBackgroundBrush}"
-                                    VerticalAlignment="Center"
-                                    Visibility="Collapsed">
-                                <TextBlock x:Name="SessionCountText"
-                                           Text="2"
-                                           FontSize="10"
-                                           FontWeight="SemiBold"
-                                           Foreground="{StaticResource IvoryPrimaryTextBrush}"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center" />
-                            </Border>
-
-                            <Button x:Name="SourceDropdownChevronButton"
-                                    Width="20"
-                                    Height="28"
-                                    Style="{StaticResource CapsuleIconButtonStyle}"
-                                    Click="OnSourceDropdownToggleClick"
-                                    ToolTipService.ToolTip="Select Active Media Source">
-                                <FontIcon Glyph="&#xE70D;"
-                                          FontSize="10"
-                                          Foreground="{StaticResource IvoryPrimaryTextBrush}" />
-                            </Button>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- SECTION 2: MEDIA INFORMATION (Left-Center) -->
-                    <Grid x:Name="MediaInfoContainer"
-                          Grid.Column="1"
-                          ColumnSpacing="10"
-                          VerticalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="44" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <Border Grid.Column="0"
-                                Width="44"
-                                Height="44"
-                                CornerRadius="10"
-                                Background="{StaticResource IvoryControlBackgroundBrush}"
-                                BorderBrush="#40FFFFFF"
-                                BorderThickness="1">
-                            <Grid>
-                                <FontIcon x:Name="FallbackArtworkIcon"
-                                          Glyph="&#xE8D6;"
-                                          FontSize="18"
-                                          Foreground="{StaticResource IvorySecondaryTextBrush}"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center" />
-                                <Border CornerRadius="9">
-                                    <Image x:Name="AlbumArtworkImage"
-                                           Width="44"
-                                           Height="44"
-                                           Stretch="UniformToFill" />
-                                </Border>
-                            </Grid>
+                <!-- SECTION 1: ALBUM ARTWORK THUMBNAIL -->
+                <Border Grid.Column="1"
+                        Width="44"
+                        Height="44"
+                        CornerRadius="10"
+                        Background="{StaticResource IvoryGlassMutedBrush}"
+                        BorderBrush="{StaticResource IvoryBorderLavenderBrush}"
+                        BorderThickness="1">
+                    <Grid>
+                        <FontIcon x:Name="FallbackArtworkIcon"
+                                  Glyph="&#xE8D6;"
+                                  FontSize="18"
+                                  Foreground="{StaticResource IvoryTertiaryTextBrush}"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center" />
+                        <Border CornerRadius="9">
+                            <Image x:Name="AlbumArtworkImage"
+                                   Width="44"
+                                   Height="44"
+                                   Stretch="UniformToFill" />
                         </Border>
-
-                        <StackPanel Grid.Column="1"
-                                    Orientation="Vertical"
-                                    VerticalAlignment="Center"
-                                    Spacing="1">
-                            <TextBlock x:Name="TrackTitleTextBlock"
-                                       Text="Dandelions"
-                                       FontSize="14"
-                                       FontWeight="SemiBold"
-                                       Foreground="{StaticResource IvoryPrimaryTextBrush}"
-                                       TextTrimming="CharacterEllipsis"
-                                       MaxLines="1" />
-                            <TextBlock x:Name="ArtistSubtitleTextBlock"
-                                       Text="Ruth B."
-                                       FontSize="12"
-                                       FontWeight="Normal"
-                                       Foreground="{StaticResource IvorySecondaryTextBrush}"
-                                       TextTrimming="CharacterEllipsis"
-                                       MaxLines="1" />
-                        </StackPanel>
-
-                        <StackPanel x:Name="PlaybackEqualizerIndicator"
-                                    Grid.Column="2"
-                                    Orientation="Horizontal"
-                                    Spacing="2"
-                                    VerticalAlignment="Center"
-                                    Margin="4,0,2,0"
-                                    ToolTipService.ToolTip="Playback State">
-                            <Rectangle x:Name="EqBar1" Width="2" Height="8" RadiusX="1" RadiusY="1" Fill="{StaticResource IvoryPrimaryTextBrush}" VerticalAlignment="Bottom" />
-                            <Rectangle x:Name="EqBar2" Width="2" Height="14" RadiusX="1" RadiusY="1" Fill="{StaticResource IvoryPrimaryTextBrush}" VerticalAlignment="Bottom" />
-                            <Rectangle x:Name="EqBar3" Width="2" Height="10" RadiusX="1" RadiusY="1" Fill="{StaticResource IvoryPrimaryTextBrush}" VerticalAlignment="Bottom" />
-                            <Rectangle x:Name="EqBar4" Width="2" Height="6" RadiusX="1" RadiusY="1" Fill="{StaticResource IvoryPrimaryTextBrush}" VerticalAlignment="Bottom" />
-                        </StackPanel>
                     </Grid>
+                </Border>
 
-                    <!-- SUBTLE VERTICAL SEPARATOR 1 -->
-                    <Rectangle Grid.Column="2"
-                               Width="1"
-                               Height="28"
-                               Fill="{StaticResource IvorySeparatorBrush}"
-                               VerticalAlignment="Center" />
-
-                    <!-- SECTION 3: PLAYBACK CONTROLS (Center) -->
-                    <StackPanel Grid.Column="3"
-                                Orientation="Horizontal"
-                                Spacing="6"
-                                VerticalAlignment="Center">
-                        <Button x:Name="ShuffleButton"
-                                Width="28"
-                                Height="28"
-                                Style="{StaticResource CapsuleIconButtonStyle}"
-                                Click="OnShuffleButtonClick"
-                                ToolTipService.ToolTip="Toggle Shuffle">
-                            <FontIcon x:Name="ShuffleIcon"
-                                      Glyph="&#xE8B1;"
-                                      FontSize="13"
-                                      Foreground="{StaticResource IvoryPrimaryTextBrush}" />
-                        </Button>
-
-                        <Button x:Name="PreviousButton"
-                                Width="32"
-                                Height="32"
-                                Style="{StaticResource CapsuleIconButtonStyle}"
-                                Click="OnPreviousButtonClick"
-                                ToolTipService.ToolTip="Previous Track">
-                            <FontIcon Glyph="&#xE892;"
-                                      FontSize="14"
-                                      Foreground="{StaticResource IvoryPrimaryTextBrush}" />
-                        </Button>
-
-                        <Button x:Name="PlayPauseButton"
-                                Style="{StaticResource PlayPauseCircleButtonStyle}"
-                                Click="OnPlayPauseButtonClick"
-                                ToolTipService.ToolTip="Play / Pause Selected Source">
-                            <FontIcon x:Name="PlayPauseIcon"
-                                      Glyph="&#xE769;"
-                                      FontSize="15"
-                                      Foreground="#FDFCF8" />
-                        </Button>
-
-                        <Button x:Name="NextButton"
-                                Width="32"
-                                Height="32"
-                                Style="{StaticResource CapsuleIconButtonStyle}"
-                                Click="OnNextButtonClick"
-                                ToolTipService.ToolTip="Next Track">
-                            <FontIcon Glyph="&#xE893;"
-                                      FontSize="14"
-                                      Foreground="{StaticResource IvoryPrimaryTextBrush}" />
-                        </Button>
-
-                        <Button x:Name="RepeatButton"
-                                Width="28"
-                                Height="28"
-                                Style="{StaticResource CapsuleIconButtonStyle}"
-                                Click="OnRepeatButtonClick"
-                                ToolTipService.ToolTip="Cycle Repeat Mode">
-                            <FontIcon x:Name="RepeatIcon"
-                                      Glyph="&#xE8EE;"
-                                      FontSize="13"
-                                      Foreground="{StaticResource IvoryPrimaryTextBrush}" />
-                        </Button>
-                    </StackPanel>
-
-                    <!-- SUBTLE VERTICAL SEPARATOR 2 -->
-                    <Rectangle Grid.Column="4"
-                               Width="1"
-                               Height="28"
-                               Fill="{StaticResource IvorySeparatorBrush}"
-                               VerticalAlignment="Center" />
-
-                    <!-- SECTION 4: VOLUME CONTROL (Right-Center) -->
-                    <StackPanel Grid.Column="5"
-                                Orientation="Horizontal"
-                                Spacing="8"
-                                VerticalAlignment="Center">
-                        <Button x:Name="MuteToggleButton"
-                                Width="28"
-                                Height="28"
-                                Style="{StaticResource CapsuleIconButtonStyle}"
-                                Click="OnMuteToggleButtonClick"
-                                ToolTipService.ToolTip="Mute / Unmute System Output">
-                            <FontIcon x:Name="VolumeSpeakerIcon"
-                                      Glyph="&#xE995;"
-                                      FontSize="15"
-                                      Foreground="{StaticResource IvoryPrimaryTextBrush}" />
-                        </Button>
-
-                        <Slider x:Name="SystemVolumeSlider"
-                                Width="104"
-                                Minimum="0"
-                                Maximum="100"
-                                StepFrequency="1"
-                                Value="70"
-                                VerticalAlignment="Center"
-                                Foreground="{StaticResource IvoryActiveSliderFillBrush}"
-                                ValueChanged="OnSystemVolumeSliderValueChanged" />
-
-                        <TextBlock x:Name="VolumePercentageTextBlock"
-                                   Text="70%"
-                                   Width="34"
-                                   FontSize="13"
-                                   FontWeight="Medium"
-                                   Foreground="{StaticResource IvoryPrimaryTextBrush}"
-                                   VerticalAlignment="Center"
-                                   TextAlignment="Right" />
-                    </StackPanel>
-
-                    <!-- SECTION 5: MORE OPTIONS (Far Right) -->
-                    <Button x:Name="MoreOptionsButton"
-                            Grid.Column="6"
-                            Width="36"
-                            Height="36"
-                            CornerRadius="18"
-                            Background="{StaticResource IvoryGlassSecondaryBrush}"
-                            BorderBrush="#66DCDAD3"
-                            BorderThickness="1"
-                            Padding="0"
-                            Click="OnMoreOptionsButtonClick"
-                            ToolTipService.ToolTip="More Options &amp; Settings">
-                        <FontIcon Glyph="&#xE712;"
-                                  FontSize="14"
-                                  Foreground="{StaticResource IvoryPrimaryTextBrush}" />
-                    </Button>
-                </Grid>
-
-                <!-- B. Compact Transient Volume-Only Mode -->
-                <Grid x:Name="CompactVolumeOnlyGrid"
-                      Visibility="Collapsed"
-                      ColumnSpacing="10"
-                      VerticalAlignment="Center"
-                      HorizontalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="160" />
-                        <ColumnDefinition Width="42" />
-                    </Grid.ColumnDefinitions>
-                    <FontIcon x:Name="CompactVolumeIcon"
-                              Grid.Column="0"
-                              Glyph="&#xE995;"
-                              FontSize="16"
-                              Foreground="{StaticResource IvoryPrimaryTextBrush}" />
-                    <ProgressBar x:Name="CompactVolumeBar"
-                                 Grid.Column="1"
-                                 Minimum="0"
-                                 Maximum="100"
-                                 Value="70"
-                                 Height="6"
-                                 CornerRadius="3"
-                                 Foreground="{StaticResource IvoryActiveSliderFillBrush}"
-                                 Background="{StaticResource IvorySeparatorBrush}" />
-                    <TextBlock x:Name="CompactVolumeText"
-                               Grid.Column="2"
-                               Text="70%"
+                <!-- SECTION 2: TRACK TITLE & ARTIST -->
+                <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="1">
+                    <TextBlock x:Name="TrackTitleTextBlock"
+                               Text="No Active Media"
                                FontSize="13"
                                FontWeight="SemiBold"
                                Foreground="{StaticResource IvoryPrimaryTextBrush}"
+                               TextTrimming="CharacterEllipsis"
+                               MaxLines="1" />
+                    <TextBlock x:Name="ArtistSubtitleTextBlock"
+                               Text="Play audio to begin"
+                               FontSize="11"
+                               Foreground="{StaticResource IvorySecondaryTextBrush}"
+                               TextTrimming="CharacterEllipsis"
+                               MaxLines="1" />
+                </StackPanel>
+
+                <!-- SECTION 3: TRANSPORT CONTROLS -->
+                <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                    <!-- Shuffle -->
+                    <Button x:Name="ShuffleButton"
+                            Width="26"
+                            Height="26"
+                            Style="{StaticResource CapsuleIconButtonStyle}"
+                            Click="OnShuffleButtonClick"
+                            ToolTipService.ToolTip="Toggle Shuffle">
+                        <FontIcon x:Name="ShuffleIcon" Glyph="&#xE8B1;" FontSize="12" />
+                    </Button>
+
+                    <!-- Previous -->
+                    <Button x:Name="PreviousButton"
+                            Width="30"
+                            Height="30"
+                            Style="{StaticResource CapsuleIconButtonStyle}"
+                            Click="OnPreviousButtonClick"
+                            ToolTipService.ToolTip="Previous Track">
+                        <FontIcon Glyph="&#xE892;" FontSize="13" />
+                    </Button>
+
+                    <!-- Play / Pause Circle Button -->
+                    <Button x:Name="PlayPauseButton"
+                            Style="{StaticResource FloatingPlayPauseButtonStyle}"
+                            Click="OnPlayPauseButtonClick"
+                            ToolTipService.ToolTip="Play / Pause">
+                        <FontIcon x:Name="PlayPauseIcon" Glyph="&#xE768;" FontSize="15" />
+                    </Button>
+
+                    <!-- Next -->
+                    <Button x:Name="NextButton"
+                            Width="30"
+                            Height="30"
+                            Style="{StaticResource CapsuleIconButtonStyle}"
+                            Click="OnNextButtonClick"
+                            ToolTipService.ToolTip="Next Track">
+                        <FontIcon Glyph="&#xE893;" FontSize="13" />
+                    </Button>
+
+                    <!-- Repeat -->
+                    <Button x:Name="RepeatButton"
+                            Width="26"
+                            Height="26"
+                            Style="{StaticResource CapsuleIconButtonStyle}"
+                            Click="OnRepeatButtonClick"
+                            ToolTipService.ToolTip="Cycle Repeat">
+                        <FontIcon x:Name="RepeatIcon" Glyph="&#xE8EE;" FontSize="12" />
+                    </Button>
+                </StackPanel>
+
+                <!-- SECTION 4: WAVEFORM / EQUALIZER VISUALIZER (Purple-to-Blue Gradient) -->
+                <controls:EqualizerBarsControl x:Name="EqualizerControl"
+                                              Grid.Column="4"
+                                              VerticalAlignment="Center"
+                                              Margin="4,0,4,0" />
+
+                <!-- SECTION 5: VOLUME CONTROL -->
+                <StackPanel Grid.Column="5" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                    <!-- Volume / Mute Speaker Icon -->
+                    <Button x:Name="MuteButton"
+                            Width="26"
+                            Height="26"
+                            Style="{StaticResource CapsuleIconButtonStyle}"
+                            Click="OnMuteButtonClick"
+                            ToolTipService.ToolTip="Mute / Unmute">
+                        <FontIcon x:Name="VolumeIcon" Glyph="&#xE995;" FontSize="13" />
+                    </Button>
+
+                    <!-- Slim Volume Slider -->
+                    <Slider x:Name="VolumeSlider"
+                            Width="84"
+                            Minimum="0"
+                            Maximum="100"
+                            StepFrequency="1"
+                            Foreground="{StaticResource IvoryAccentVioletBrush}"
+                            VerticalAlignment="Center"
+                            ValueChanged="OnVolumeSliderValueChanged" />
+
+                    <!-- Volume Percentage -->
+                    <TextBlock x:Name="VolumePercentageTextBlock"
+                               Text="70%"
+                               Width="32"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource IvoryPrimaryTextBrush}"
+                               VerticalAlignment="Center"
                                TextAlignment="Right" />
-                </Grid>
+                </StackPanel>
+
+                <!-- SECTION 6: DISMISS 'X' BUTTON (Right End) -->
+                <Button x:Name="DismissButton"
+                        Grid.Column="6"
+                        Style="{StaticResource DismissCircleButtonStyle}"
+                        Click="OnDismissButtonClick"
+                        ToolTipService.ToolTip="Dismiss Floating Controller (Audio continues)"
+                        AutomationProperties.Name="Dismiss Floating Controller">
+                    <FontIcon Glyph="&#xE711;" FontSize="11" />
+                </Button>
             </Grid>
         </Border>
 
-        <!-- Integrated Connected Drawer (Source Switcher OR Settings inside the same window) -->
-        <Border x:Name="IntegratedDrawerBorder"
-                Grid.Row="2"
+        <!-- Connected Quick Source Drawer -->
+        <Border x:Name="SourceDrawerBorder"
+                Grid.Row="1"
                 Margin="0,6,0,0"
                 Width="540"
-                CornerRadius="20"
+                CornerRadius="18"
                 Background="{StaticResource IvoryGlassSecondaryBrush}"
                 BorderBrush="{StaticResource IvoryBorderBrush}"
                 BorderThickness="1"
                 Padding="16,12,16,12"
                 Visibility="Collapsed"
                 HorizontalAlignment="Center">
-            <Grid>
-                <!-- 1. Multi-Source Selector List -->
-                <StackPanel x:Name="SourceSelectorPanel"
-                            Visibility="Collapsed"
-                            Spacing="8">
-                    <Grid>
-                        <TextBlock Text="Active Media Sources"
-                                   FontSize="12"
-                                   FontWeight="SemiBold"
-                                   Foreground="{StaticResource IvorySecondaryTextBrush}" />
-                        <TextBlock x:Name="DrawerSessionCountLabel"
-                                   Text="2 sessions"
-                                   FontSize="11"
-                                   Foreground="{StaticResource IvorySecondaryTextBrush}"
-                                   HorizontalAlignment="Right" />
-                    </Grid>
+            <StackPanel Spacing="8">
+                <Grid>
+                    <TextBlock Text="Available Media Sources" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                    <TextBlock x:Name="DrawerSessionCountLabel" Text="2 active session(s)" FontSize="11" Foreground="{StaticResource IvorySecondaryTextBrush}" HorizontalAlignment="Right" />
+                </Grid>
 
-                    <ListView x:Name="SessionsListView"
-                              SelectionMode="Single"
-                              MaxHeight="132"
-                              ItemClick="OnSessionListItemClick"
-                              IsItemClickEnabled="True">
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="models:MediaSessionSnapshot">
-                                <Grid Padding="4,6,4,6" ColumnSpacing="10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="24" />
-                                        <ColumnDefinition Width="150" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <FontIcon Grid.Column="0"
-                                              Glyph="{x:Bind Identity.GlyphCode}"
-                                              FontSize="14"
-                                              Foreground="#242321" />
-                                    <TextBlock Grid.Column="1"
-                                               Text="{x:Bind Identity.ApplicationDisplayName}"
-                                               FontSize="12"
-                                               FontWeight="SemiBold"
-                                               Foreground="#242321"
-                                               TextTrimming="CharacterEllipsis"
-                                               VerticalAlignment="Center" />
-                                    <TextBlock Grid.Column="2"
-                                               Text="{x:Bind DisplayTitle}"
-                                               FontSize="12"
-                                               Foreground="#77756F"
-                                               TextTrimming="CharacterEllipsis"
-                                               VerticalAlignment="Center" />
-                                    <TextBlock Grid.Column="3"
-                                               Text="{x:Bind PlaybackStatusText}"
-                                               FontSize="11"
-                                               Foreground="#77756F"
-                                               VerticalAlignment="Center" />
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackPanel>
-
-                <!-- 2. Integrated Settings & Data Storage Panel -->
-                <StackPanel x:Name="OptionsSettingsPanel"
-                            Visibility="Collapsed"
-                            Spacing="8">
-                    <Grid>
-                        <TextBlock Text="Ivory Island Settings"
-                                   FontSize="13"
-                                   FontWeight="SemiBold"
-                                   Foreground="{StaticResource IvoryPrimaryTextBrush}" />
-                        <Button Content="Reset Position"
-                                FontSize="11"
-                                Padding="8,3,8,3"
-                                CornerRadius="8"
-                                HorizontalAlignment="Right"
-                                Click="OnResetPositionButtonClick" />
-                    </Grid>
-
-                    <Grid ColumnSpacing="16" RowSpacing="6">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <CheckBox x:Name="StartWithWindowsCheckBox"
-                                  Grid.Row="0" Grid.Column="0"
-                                  Content="Start with Windows"
-                                  FontSize="12"
-                                  Click="OnStartWithWindowsCheckBoxClick" />
-
-                        <CheckBox x:Name="FullscreenAutoHideCheckBox"
-                                  Grid.Row="0" Grid.Column="1"
-                                  Content="Auto-hide in Fullscreen"
-                                  FontSize="12"
-                                  Click="OnFullscreenAutoHideCheckBoxClick" />
-
-                        <CheckBox x:Name="ManualSourceLockCheckBox"
-                                  Grid.Row="1" Grid.Column="0"
-                                  Content="Lock manual source selection"
-                                  FontSize="12"
-                                  Click="OnManualSourceLockCheckBoxClick" />
-
-                        <CheckBox x:Name="CompactIdleCheckBox"
-                                  Grid.Row="1" Grid.Column="1"
-                                  Content="Keep compact capsule when idle"
-                                  FontSize="12"
-                                  Click="OnCompactIdleCheckBoxClick" />
-
-                        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                            <TextBlock Text="Glass Opacity:" FontSize="12" VerticalAlignment="Center" Foreground="{StaticResource IvorySecondaryTextBrush}" />
-                            <Slider x:Name="GlassOpacitySlider"
-                                    Width="100"
-                                    Minimum="65"
-                                    Maximum="98"
-                                    Value="90"
-                                    ValueChanged="OnGlassOpacitySliderValueChanged" />
-                        </StackPanel>
-
-                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
-                            <TextBlock Text="Anchor:" FontSize="12" VerticalAlignment="Center" Foreground="{StaticResource IvorySecondaryTextBrush}" Margin="0,0,4,0" />
-                            <Button Content="Left" FontSize="11" Padding="6,2,6,2" Click="OnAnchorLeftClick" />
-                            <Button Content="Center" FontSize="11" Padding="6,2,6,2" Click="OnAnchorCenterClick" />
-                            <Button Content="Right" FontSize="11" Padding="6,2,6,2" Click="OnAnchorRightClick" />
-                        </StackPanel>
-
-                        <!-- User Data & Cache Directory Selector via Native Windows FolderPicker -->
-                        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" ColumnSpacing="8" Margin="0,4,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0"
-                                       Text="Data Folder:"
-                                       FontSize="11"
-                                       VerticalAlignment="Center"
-                                       Foreground="{StaticResource IvorySecondaryTextBrush}" />
-                            <TextBlock x:Name="DataDirectoryTextBlock"
-                                       Grid.Column="1"
-                                       Text="%LOCALAPPDATA%\IvoryIsland"
-                                       FontSize="11"
-                                       Foreground="{StaticResource IvoryPrimaryTextBrush}"
-                                       TextTrimming="CharacterEllipsis"
-                                       VerticalAlignment="Center" />
-                            <Button x:Name="BrowseDataFolderButton"
-                                    Grid.Column="2"
-                                    Content="Browse..."
-                                    FontSize="11"
-                                    Padding="8,2,8,2"
-                                    CornerRadius="6"
-                                    Click="OnBrowseDataFolderButtonClick"
-                                    ToolTipService.ToolTip="Choose folder for cache, exports, and user data" />
-                            <Button x:Name="ResetDataFolderButton"
-                                    Grid.Column="3"
-                                    Content="Default"
-                                    FontSize="11"
-                                    Padding="8,2,8,2"
-                                    CornerRadius="6"
-                                    Click="OnResetDataFolderButtonClick"
-                                    ToolTipService.ToolTip="Reset data storage to %LOCALAPPDATA%\IvoryIsland" />
-                        </Grid>
-                    </Grid>
-                </StackPanel>
-            </Grid>
+                <ListView x:Name="SessionsListView"
+                          SelectionMode="Single"
+                          MaxHeight="120"
+                          ItemClick="OnSessionListItemClick"
+                          IsItemClickEnabled="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="models:MediaSessionSnapshot">
+                            <Grid Padding="4,4,4,4" ColumnSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="22" />
+                                    <ColumnDefinition Width="130" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon Grid.Column="0" Glyph="{x:Bind Identity.GlyphCode}" FontSize="13" Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                                <TextBlock Grid.Column="1" Text="{x:Bind Identity.ApplicationDisplayName}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource IvoryPrimaryTextBrush}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="2" Text="{x:Bind DisplayTitle}" FontSize="11" Foreground="{StaticResource IvorySecondaryTextBrush}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="3" Text="{x:Bind PlaybackStatusText}" FontSize="10" Foreground="{StaticResource IvorySecondaryTextBrush}" VerticalAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
         </Border>
     </Grid>
 </UserControl>

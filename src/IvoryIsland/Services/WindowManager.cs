@@ -44,6 +44,12 @@ public sealed class WindowManager : IDisposable
     public IntPtr WindowHandle => _hwnd;
     public AppWindow AppWindow => _appWindow;
     public bool IsFullscreenObstructed => _isFullscreenObstructed;
+    public bool IsOverlayVisible => !_isUserHidden;
+
+    public void ToggleVisibility()
+    {
+        SetOverlayVisible(_isUserHidden);
+    }
 
     public event EventHandler? TaskbarRecreated;
     public event EventHandler<uint>? TrayMouseMessageReceived;

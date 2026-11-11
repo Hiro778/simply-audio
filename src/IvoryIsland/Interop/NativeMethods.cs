@@ -86,6 +86,10 @@ internal static class NativeMethods
     public const uint TPM_RIGHTBUTTON = 0x0002;
     public const uint TPM_BOTTOMALIGN = 0x0020;
 
+    // Window command and caption constants for native dragging
+    public const int SC_MOVE = 0xF010;
+    public const int HTCAPTION = 0x0002;
+
     // WTS session notification
     public const int NOTIFY_FOR_THIS_SESSION = 0;
     public const int WTS_SESSION_LOCK = 0x7;
@@ -286,6 +290,13 @@ internal static class NativeMethods
     [DllImport("user32.dll", EntryPoint = "PostMessageW")]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+    [DllImport("user32.dll", EntryPoint = "SendMessageW")]
+    public static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool ReleaseCapture();
 
     [DllImport("user32.dll", EntryPoint = "LoadIconW")]
     public static extern IntPtr LoadIcon(IntPtr hInstance, IntPtr lpIconName);

@@ -3,10 +3,82 @@
     x:Class="IvoryIsland.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:IvoryIsland.Controls"
     xmlns:views="using:IvoryIsland.Views"
     Title="Ivory Island">
 
     <Grid x:Name="RootWindowGrid" Background="Transparent">
-        <views:FloatingIslandView x:Name="IslandView" />
+        <!-- Root Glass Frame (Rounded corners, translucent pearl white glass, luminous rim border) -->
+        <Border x:Name="WindowFrameBorder"
+                CornerRadius="16"
+                Background="{StaticResource PearlWindowGlassBrush}"
+                BorderBrush="{StaticResource LuminousRimBorderBrush}"
+                BorderThickness="1.2"
+                Margin="0">
+            <Border.Shadow>
+                <ThemeShadow />
+            </Border.Shadow>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <!-- Row 0: Custom macOS Titlebar with Traffic Lights & Safari Tab Strip -->
+                    <RowDefinition Height="46" />
+                    <!-- Row 1: Modern Navigation & Address Capsule Row -->
+                    <RowDefinition Height="Auto" />
+                    <!-- Row 2: Subtle Horizontal Divider -->
+                    <RowDefinition Height="1" />
+                    <!-- Row 3: Tab Content Views Host -->
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!-- ROW 0: CUSTOM TITLEBAR (Traffic Lights + Tab Strip + Drag Surface) -->
+                <Grid x:Name="CustomTitleBarGrid"
+                      Grid.Row="0"
+                      Background="Transparent"
+                      PointerPressed="OnTitleBarPointerPressed"
+                      DoubleTapped="OnTitleBarDoubleTapped">
+                    <Grid.ColumnDefinitions>
+                        <!-- Traffic Lights -->
+                        <ColumnDefinition Width="Auto" />
+                        <!-- Safari Tab Strip -->
+                        <ColumnDefinition Width="Auto" />
+                        <!-- Drag Surface / Spacer -->
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- macOS 3-Button Traffic Lights (Red, Yellow, Green) -->
+                    <controls:TrafficLightControls x:Name="TrafficLights"
+                                                  Grid.Column="0"
+                                                  Margin="16,0,16,0"
+                                                  VerticalAlignment="Center" />
+
+                    <!-- Safari-Inspired Pill Tab Strip -->
+                    <controls:TabStrip x:Name="MainTabStrip"
+                                      Grid.Column="1"
+                                      VerticalAlignment="Center" />
+
+                    <!-- Custom Drag Handle Area (Right Spacer) -->
+                    <Grid Grid.Column="2" Background="Transparent" />
+                </Grid>
+
+                <!-- ROW 1: NAVIGATION & ADDRESS CAPSULE ROW (Reference Image 1) -->
+                <controls:NavigationRow x:Name="NavRow"
+                                       Grid.Row="1"
+                                       Margin="0,0,0,4" />
+
+                <!-- ROW 2: SUBTLE HORIZONTAL SEPARATOR -->
+                <Rectangle Grid.Row="2"
+                           Fill="{StaticResource IvoryBorderSubtleBrush}"
+                           HorizontalAlignment="Stretch" />
+
+                <!-- ROW 3: MAIN CONTENT VIEWS HOST -->
+                <Grid x:Name="ContentAreaGrid" Grid.Row="3">
+                    <views:NowPlayingTabView x:Name="NowPlayingView" Visibility="Visible" />
+                    <views:AudioControlTabView x:Name="AudioControlView" Visibility="Collapsed" />
+                    <views:MediaSourcesTabView x:Name="MediaSourcesView" Visibility="Collapsed" />
+                    <views:SettingsTabView x:Name="SettingsView" Visibility="Collapsed" />
+                </Grid>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

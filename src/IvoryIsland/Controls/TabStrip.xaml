@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="IvoryIsland.Controls.TabStrip"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:models="using:IvoryIsland.Models"
+    xmlns:converters="using:IvoryIsland.Converters"
+    FontFamily="{StaticResource IvoryPrimaryFont}">
+
+    <UserControl.Resources>
+        <converters:TabBackgroundConverter x:Key="TabBackgroundConverter" />
+        <converters:TabBorderConverter x:Key="TabBorderConverter" />
+        <converters:TabTextBrushConverter x:Key="TabTextBrushConverter" />
+        <converters:TabFontWeightConverter x:Key="TabFontWeightConverter" />
+
+        <Style x:Key="TabCloseButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="18" />
+            <Setter Property="Height" Value="18" />
+            <Setter Property="CornerRadius" Value="9" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Foreground" Value="{StaticResource IvorySecondaryTextBrush}" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="NewTabButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="28" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="Background" Value="{StaticResource IvoryGlassHoverBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource IvoryBorderSubtleBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Foreground" Value="{StaticResource IvoryPrimaryTextBrush}" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+    </UserControl.Resources>
+
+    <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+        <!-- Dynamic Tab Items Container -->
+        <ItemsControl x:Name="TabsItemsControl">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" Spacing="6" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="models:TabItemModel">
+                    <Border x:Name="TabPillBorder"
+                            Height="32"
+                            CornerRadius="16"
+                            Padding="12,0,8,0"
+                            Background="{x:Bind IsActive, Mode=OneWay, Converter={StaticResource TabBackgroundConverter}}"
+                            BorderBrush="{x:Bind IsActive, Mode=OneWay, Converter={StaticResource TabBorderConverter}}"
+                            BorderThickness="1"
+                            PointerPressed="OnTabPillPointerPressed"
+                            ToolTipService.ToolTip="{x:Bind Title}">
+                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <!-- Tab Icon -->
+                            <FontIcon Glyph="{x:Bind IconGlyph}"
+                                      FontSize="12"
+                                      Foreground="{x:Bind IsActive, Mode=OneWay, Converter={StaticResource TabTextBrushConverter}}" />
+
+                            <!-- Tab Title -->
+                            <TextBlock Text="{x:Bind Title}"
+                                       FontSize="12"
+                                       FontWeight="{x:Bind IsActive, Mode=OneWay, Converter={StaticResource TabFontWeightConverter}}"
+                                       Foreground="{x:Bind IsActive, Mode=OneWay, Converter={StaticResource TabTextBrushConverter}}"
+                                       VerticalAlignment="Center" />
+
+                            <!-- Individual Close Button -->
+                            <Button Style="{StaticResource TabCloseButtonStyle}"
+                                    Visibility="{x:Bind CanClose, Mode=OneWay}"
+                                    Click="OnTabCloseButtonClick"
+                                    ToolTipService.ToolTip="Close Tab"
+                                    AutomationProperties.Name="Close Tab"
+                                    Tag="{x:Bind Id}">
+                                <FontIcon Glyph="&#xE711;" FontSize="9" />
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <!-- '+' New Tab Button -->
+        <Button x:Name="NewTabButton"
+                Style="{StaticResource NewTabButtonStyle}"
+                Click="OnNewTabButtonClick"
+                ToolTipService.ToolTip="New / Reopen Tab"
+                AutomationProperties.Name="Open New Tab">
+            <FontIcon Glyph="&#xE710;" FontSize="12" />
+        </Button>
+    </StackPanel>
+</UserControl>

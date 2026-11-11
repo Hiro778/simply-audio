@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="IvoryIsland.Views.NowPlayingTabView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:IvoryIsland.Controls"
+    xmlns:models="using:IvoryIsland.Models"
+    FontFamily="{StaticResource IvoryPrimaryFont}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <Grid Padding="32,24,32,32" MaxWidth="920" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="24" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Hero Glass Media Card -->
+            <Border Grid.Row="0"
+                    CornerRadius="24"
+                    Background="{StaticResource IvoryGlassSurfaceBrush}"
+                    BorderBrush="{StaticResource IvoryBorderBrush}"
+                    BorderThickness="1.2"
+                    Padding="28">
+                <Grid ColumnSpacing="28">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Album Artwork Container with Glass Frame -->
+                    <Border Grid.Column="0"
+                            Width="192"
+                            Height="192"
+                            CornerRadius="20"
+                            Background="{StaticResource IvoryGlassMutedBrush}"
+                            BorderBrush="{StaticResource IvoryBorderLavenderBrush}"
+                            BorderThickness="1.5">
+                        <Grid>
+                            <FontIcon x:Name="FallbackArtIcon"
+                                      Glyph="&#xE8D6;"
+                                      FontSize="54"
+                                      Foreground="{StaticResource IvoryTertiaryTextBrush}"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" />
+                            <Border CornerRadius="18">
+                                <Image x:Name="ArtworkImage"
+                                       Width="192"
+                                       Height="192"
+                                       Stretch="UniformToFill" />
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- Track Metadata & Transport Controls -->
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="10">
+                        <!-- Source Identity Badge -->
+                        <Border HorizontalAlignment="Left"
+                                Height="28"
+                                CornerRadius="14"
+                                Background="{StaticResource IvoryGlassSecondaryBrush}"
+                                BorderBrush="{StaticResource IvoryBorderSubtleBrush}"
+                                BorderThickness="1"
+                                Padding="10,0,12,0">
+                            <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                                <Ellipse x:Name="SourceIndicatorDot" Width="8" Height="8" Fill="{StaticResource SpotifyBrandGreenBrush}" />
+                                <TextBlock x:Name="SourceIdentityTextBlock"
+                                           Text="Spotify"
+                                           FontSize="11"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource IvorySecondaryTextBrush}" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Track Title -->
+                        <TextBlock x:Name="TrackTitleTextBlock"
+                                   Text="No Active Media"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource IvoryPrimaryTextBrush}"
+                                   TextTrimming="CharacterEllipsis"
+                                   MaxLines="2" />
+
+                        <!-- Artist Subtitle -->
+                        <TextBlock x:Name="ArtistSubtitleTextBlock"
+                                   Text="Play music in Spotify or browser"
+                                   FontSize="14"
+                                   FontWeight="Normal"
+                                   Foreground="{StaticResource IvorySecondaryTextBrush}"
+                                   TextTrimming="CharacterEllipsis"
+                                   MaxLines="1" />
+
+                        <!-- Equalizer Waveform Visualizer -->
+                        <controls:EqualizerBarsControl x:Name="EqualizerControl" Margin="0,4,0,4" />
+
+                        <!-- Media Transport Controls -->
+                        <Grid Margin="0,6,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                                <Button x:Name="ShuffleButton"
+                                        Width="34"
+                                        Height="34"
+                                        Style="{StaticResource GlassIconButtonStyle}"
+                                        Click="OnShuffleButtonClick"
+                                        ToolTipService.ToolTip="Toggle Shuffle">
+                                    <FontIcon x:Name="ShuffleIcon" Glyph="&#xE8B1;" FontSize="14" />
+                                </Button>
+
+                                <Button x:Name="PreviousButton"
+                                        Width="38"
+                                        Height="38"
+                                        Style="{StaticResource GlassIconButtonStyle}"
+                                        Click="OnPreviousButtonClick"
+                                        ToolTipService.ToolTip="Previous Track">
+                                    <FontIcon Glyph="&#xE892;" FontSize="16" />
+                                </Button>
+
+                                <Button x:Name="PlayPauseButton"
+                                        Style="{StaticResource GlassPlayPauseButtonStyle}"
+                                        Width="48"
+                                        Height="48"
+                                        CornerRadius="24"
+                                        Click="OnPlayPauseButtonClick"
+                                        ToolTipService.ToolTip="Play / Pause">
+                                    <FontIcon x:Name="PlayPauseIcon" Glyph="&#xE768;" FontSize="18" />
+                                </Button>
+
+                                <Button x:Name="NextButton"
+                                        Width="38"
+                                        Height="38"
+                                        Style="{StaticResource GlassIconButtonStyle}"
+                                        Click="OnNextButtonClick"
+                                        ToolTipService.ToolTip="Next Track">
+                                    <FontIcon Glyph="&#xE893;" FontSize="16" />
+                                </Button>
+
+                                <Button x:Name="RepeatButton"
+                                        Width="34"
+                                        Height="34"
+                                        Style="{StaticResource GlassIconButtonStyle}"
+                                        Click="OnRepeatButtonClick"
+                                        ToolTipService.ToolTip="Cycle Repeat Mode">
+                                    <FontIcon x:Name="RepeatIcon" Glyph="&#xE8EE;" FontSize="14" />
+                                </Button>
+                            </StackPanel>
+
+                            <!-- Inline Volume Slider -->
+                            <StackPanel Grid.Column="1"
+                                        Orientation="Horizontal"
+                                        Spacing="8"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center">
+                                <Button x:Name="MuteButton"
+                                        Width="32"
+                                        Height="32"
+                                        Style="{StaticResource GlassIconButtonStyle}"
+                                        Click="OnMuteButtonClick"
+                                        ToolTipService.ToolTip="Mute / Unmute">
+                                    <FontIcon x:Name="VolumeIcon" Glyph="&#xE995;" FontSize="15" />
+                                </Button>
+
+                                <Slider x:Name="VolumeSlider"
+                                        Width="110"
+                                        Minimum="0"
+                                        Maximum="100"
+                                        StepFrequency="1"
+                                        Foreground="{StaticResource IvoryAccentVioletBrush}"
+                                        ValueChanged="OnVolumeSliderValueChanged" />
+
+                                <TextBlock x:Name="VolumePercentageTextBlock"
+                                           Text="70%"
+                                           Width="36"
+                                           FontSize="12"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource IvoryPrimaryTextBrush}"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Right" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Bottom Session Switcher Pill Card -->
+            <Border Grid.Row="2"
+                    CornerRadius="18"
+                    Background="{StaticResource IvoryGlassSecondaryBrush}"
+                    BorderBrush="{StaticResource IvoryBorderBrush}"
+                    BorderThickness="1"
+                    Padding="20,14,20,14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <FontIcon Glyph="&#xEC4F;" FontSize="14" Foreground="{StaticResource IvorySecondaryTextBrush}" />
+                        <TextBlock Text="Active Sources" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource IvoryPrimaryTextBrush}" VerticalAlignment="Center" />
+                        <Border x:Name="SessionBadgeBorder"
+                                Height="18"
+                                CornerRadius="9"
+                                Background="{StaticResource IvoryAccentLavenderBrush}"
+                                Padding="6,0,6,0"
+                                VerticalAlignment="Center">
+                            <TextBlock x:Name="SessionBadgeCountText"
+                                       Text="1 Session"
+                                       FontSize="10"
+                                       FontWeight="Bold"
+                                       Foreground="{StaticResource IvoryAccentVioletDarkBrush}" />
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <Button x:Name="SwitchSpotifyButton"
+                                Style="{StaticResource GlassPillButtonStyle}"
+                                Click="OnSwitchSpotifyButtonClick"
+                                ToolTipService.ToolTip="Switch to Spotify">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <Ellipse Width="8" Height="8" Fill="{StaticResource SpotifyBrandGreenBrush}" />
+                                <TextBlock Text="Spotify" FontSize="11" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="SwitchBrowserButton"
+                                Style="{StaticResource GlassPillButtonStyle}"
+                                Click="OnSwitchBrowserButtonClick"
+                                ToolTipService.ToolTip="Switch to Browser Session">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <Ellipse Width="8" Height="8" Fill="{StaticResource YouTubeRedBrush}" />
+                                <TextBlock Text="Browser" FontSize="11" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

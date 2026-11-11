@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ================================================================= -->
+    <!-- IVORY ISLAND WHITE FROSTED-GLASS DESIGN SYSTEM (macOS-INSPIRED)  -->
+    <!-- Restrained palette: Pearl white, lavender & ice-blue reflections, -->
+    <!-- dark graphite text, soft shadows, thin luminous borders.          -->
+    <!-- ================================================================= -->
+
+    <!-- Core Colors -->
+    <Color x:Key="IvoryGlassBackgroundColor">#E6FFFFFF</Color>
+    <Color x:Key="IvoryGlassSurfaceColor">#F2FFFFFF</Color>
+    <Color x:Key="IvoryGlassSecondaryColor">#B3FFFFFF</Color>
+    <Color x:Key="IvoryGlassMutedColor">#80F8FAFC</Color>
+    <Color x:Key="IvoryGlassHoverColor">#33FFFFFF</Color>
+    <Color x:Key="IvoryGlassPressedColor">#59FFFFFF</Color>
+
+    <Color x:Key="IvoryBorderColor">#99FFFFFF</Color>
+    <Color x:Key="IvoryBorderSubtleColor">#33CBD5E1</Color>
+    <Color x:Key="IvoryBorderLavenderColor">#4DE9E6FF</Color>
+
+    <Color x:Key="IvoryAccentLavenderColor">#E9E6FF</Color>
+    <Color x:Key="IvoryAccentIceBlueColor">#DCEBFF</Color>
+    <Color x:Key="IvoryAccentVioletColor">#8B5CF6</Color>
+    <Color x:Key="IvoryAccentVioletDarkColor">#7C3AED</Color>
+    <Color x:Key="IvoryAccentBlueColor">#38BDF8</Color>
+
+    <Color x:Key="IvoryPrimaryTextColor">#202333</Color>
+    <Color x:Key="IvorySecondaryTextColor">#64748B</Color>
+    <Color x:Key="IvoryTertiaryTextColor">#94A3B8</Color>
+
+    <Color x:Key="TrafficLightRedColor">#FF5F56</Color>
+    <Color x:Key="TrafficLightRedHoverColor">#E0443E</Color>
+    <Color x:Key="TrafficLightYellowColor">#FFBD2E</Color>
+    <Color x:Key="TrafficLightYellowHoverColor">#DEA123</Color>
+    <Color x:Key="TrafficLightGreenColor">#27C93F</Color>
+    <Color x:Key="TrafficLightGreenHoverColor">#1AAB29</Color>
+
+    <Color x:Key="SpotifyBrandGreenColor">#1ED760</Color>
+    <Color x:Key="YouTubeRedColor">#E62117</Color>
+
+    <!-- Core Brushes -->
+    <SolidColorBrush x:Key="IvoryGlassBackgroundBrush" Color="{StaticResource IvoryGlassBackgroundColor}" />
+    <SolidColorBrush x:Key="IvoryGlassSurfaceBrush" Color="{StaticResource IvoryGlassSurfaceColor}" />
+    <SolidColorBrush x:Key="IvoryGlassSecondaryBrush" Color="{StaticResource IvoryGlassSecondaryColor}" />
+    <SolidColorBrush x:Key="IvoryGlassMutedBrush" Color="{StaticResource IvoryGlassMutedColor}" />
+    <SolidColorBrush x:Key="IvoryGlassHoverBrush" Color="{StaticResource IvoryGlassHoverColor}" />
+    <SolidColorBrush x:Key="IvoryGlassPressedBrush" Color="{StaticResource IvoryGlassPressedColor}" />
+
+    <SolidColorBrush x:Key="IvoryBorderBrush" Color="{StaticResource IvoryBorderColor}" />
+    <SolidColorBrush x:Key="IvoryBorderSubtleBrush" Color="{StaticResource IvoryBorderSubtleColor}" />
+    <SolidColorBrush x:Key="IvoryBorderLavenderBrush" Color="{StaticResource IvoryBorderLavenderColor}" />
+
+    <SolidColorBrush x:Key="IvoryAccentLavenderBrush" Color="{StaticResource IvoryAccentLavenderColor}" />
+    <SolidColorBrush x:Key="IvoryAccentIceBlueBrush" Color="{StaticResource IvoryAccentIceBlueColor}" />
+    <SolidColorBrush x:Key="IvoryAccentVioletBrush" Color="{StaticResource IvoryAccentVioletColor}" />
+    <SolidColorBrush x:Key="IvoryAccentVioletDarkBrush" Color="{StaticResource IvoryAccentVioletDarkColor}" />
+    <SolidColorBrush x:Key="IvoryAccentBlueBrush" Color="{StaticResource IvoryAccentBlueColor}" />
+
+    <SolidColorBrush x:Key="IvoryPrimaryTextBrush" Color="{StaticResource IvoryPrimaryTextColor}" />
+    <SolidColorBrush x:Key="IvorySecondaryTextBrush" Color="{StaticResource IvorySecondaryTextColor}" />
+    <SolidColorBrush x:Key="IvoryTertiaryTextBrush" Color="{StaticResource IvoryTertiaryTextColor}" />
+
+    <SolidColorBrush x:Key="TrafficLightRedBrush" Color="{StaticResource TrafficLightRedColor}" />
+    <SolidColorBrush x:Key="TrafficLightRedHoverBrush" Color="{StaticResource TrafficLightRedHoverColor}" />
+    <SolidColorBrush x:Key="TrafficLightYellowBrush" Color="{StaticResource TrafficLightYellowColor}" />
+    <SolidColorBrush x:Key="TrafficLightYellowHoverBrush" Color="{StaticResource TrafficLightYellowHoverColor}" />
+    <SolidColorBrush x:Key="TrafficLightGreenBrush" Color="{StaticResource TrafficLightGreenColor}" />
+    <SolidColorBrush x:Key="TrafficLightGreenHoverBrush" Color="{StaticResource TrafficLightGreenHoverColor}" />
+
+    <SolidColorBrush x:Key="SpotifyBrandGreenBrush" Color="{StaticResource SpotifyBrandGreenColor}" />
+    <SolidColorBrush x:Key="YouTubeRedBrush" Color="{StaticResource YouTubeRedColor}" />
+
+    <!-- Waveform Gradient Brush (Purple-to-Blue as seen in Reference Image 2) -->
+    <LinearGradientBrush x:Key="WaveformGradientBrush" StartPoint="0,1" EndPoint="0,0">
+        <GradientStop Color="#8B5CF6" Offset="0.0" />
+        <GradientStop Color="#A855F7" Offset="0.5" />
+        <GradientStop Color="#38BDF8" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Subtle Pearl Glass Gradient Brush for Main Window -->
+    <LinearGradientBrush x:Key="PearlWindowGlassBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#F0FFFFFF" Offset="0.0" />
+        <GradientStop Color="#E8F8FAFF" Offset="0.4" />
+        <GradientStop Color="#E4F5F3FF" Offset="0.8" />
+        <GradientStop Color="#EDFAF8FF" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Translucent Luminous Rim Border Gradient Brush -->
+    <LinearGradientBrush x:Key="LuminousRimBorderBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#E6FFFFFF" Offset="0.0" />
+        <GradientStop Color="#80E9E6FF" Offset="0.5" />
+        <GradientStop Color="#B3FFFFFF" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Typography -->
+    <FontFamily x:Key="IvoryPrimaryFont">Segoe UI Variable Display, Segoe UI, -apple-system, sans-serif</FontFamily>
+
+    <!-- Common Button Styles -->
+    <Style x:Key="GlassIconButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource IvoryPrimaryTextBrush}" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="GlassPlayPauseButtonStyle" TargetType="Button">
+        <Setter Property="Width" Value="42" />
+        <Setter Property="Height" Value="42" />
+        <Setter Property="CornerRadius" Value="21" />
+        <Setter Property="Background" Value="#F2FFFFFF" />
+        <Setter Property="BorderBrush" Value="{StaticResource IvoryBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1.2" />
+        <Setter Property="Foreground" Value="{StaticResource IvoryPrimaryTextBrush}" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="GlassPillButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource IvoryGlassSecondaryBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource IvoryBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="{StaticResource IvoryPrimaryTextBrush}" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="Padding" Value="12,6,12,6" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Medium" />
+    </Style>
+
+</ResourceDictionary>

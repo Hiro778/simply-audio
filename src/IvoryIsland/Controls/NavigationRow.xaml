@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="IvoryIsland.Controls.NavigationRow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    FontFamily="{StaticResource IvoryPrimaryFont}">
+
+    <UserControl.Resources>
+        <Style x:Key="NavIconButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="CornerRadius" Value="16" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Foreground" Value="{StaticResource IvoryPrimaryTextBrush}" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="AvatarCircleButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="CornerRadius" Value="15" />
+            <Setter Property="Background" Value="{StaticResource IvoryGlassSecondaryBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource IvoryBorderSubtleBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Height="44" Padding="12,0,12,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Navigation Buttons: Back, Forward, Refresh -->
+        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+            <Button x:Name="BackButton"
+                    Style="{StaticResource NavIconButtonStyle}"
+                    Click="OnBackButtonClick"
+                    ToolTipService.ToolTip="Back"
+                    AutomationProperties.Name="Navigate Back">
+                <FontIcon Glyph="&#xE72B;" FontSize="13" />
+            </Button>
+
+            <Button x:Name="ForwardButton"
+                    Style="{StaticResource NavIconButtonStyle}"
+                    Click="OnForwardButtonClick"
+                    ToolTipService.ToolTip="Forward"
+                    AutomationProperties.Name="Navigate Forward">
+                <FontIcon Glyph="&#xE72A;" FontSize="13" />
+            </Button>
+
+            <Button x:Name="RefreshButton"
+                    Style="{StaticResource NavIconButtonStyle}"
+                    Click="OnRefreshButtonClick"
+                    ToolTipService.ToolTip="Refresh Media Sessions"
+                    AutomationProperties.Name="Refresh Media Sessions">
+                <FontIcon Glyph="&#xE72C;" FontSize="13" />
+            </Button>
+        </StackPanel>
+
+        <!-- Center Address & Status Capsule (Reference Image 1) -->
+        <Border Grid.Column="1"
+                Height="32"
+                CornerRadius="16"
+                Background="{StaticResource IvoryGlassSecondaryBrush}"
+                BorderBrush="{StaticResource IvoryBorderBrush}"
+                BorderThickness="1"
+                Margin="12,0,12,0"
+                Padding="12,0,12,0"
+                VerticalAlignment="Center">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Padlock Icon -->
+                <FontIcon Grid.Column="0"
+                          Glyph="&#xE72E;"
+                          FontSize="11"
+                          Foreground="{StaticResource IvorySecondaryTextBrush}"
+                          Margin="0,0,8,0"
+                          VerticalAlignment="Center" />
+
+                <!-- Location / Status Text -->
+                <TextBlock x:Name="AddressTextBlock"
+                           Grid.Column="1"
+                           Text="ivory://now-playing"
+                           FontSize="12"
+                           FontWeight="Normal"
+                           Foreground="{StaticResource IvoryPrimaryTextBrush}"
+                           TextTrimming="CharacterEllipsis"
+                           VerticalAlignment="Center" />
+
+                <!-- Active Stream Audio Badge -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                    <TextBlock x:Name="StreamStatusTextBlock"
+                               Text="WASAPI 24-bit"
+                               FontSize="11"
+                               Foreground="{StaticResource IvorySecondaryTextBrush}"
+                               VerticalAlignment="Center" />
+                    <FontIcon Glyph="&#xE734;" FontSize="11" Foreground="{StaticResource IvorySecondaryTextBrush}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Right Action Buttons: Floating Island Toggle, Volume Mute, Avatar, More Menu -->
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+            <Button x:Name="ToggleFloatingControllerButton"
+                    Style="{StaticResource NavIconButtonStyle}"
+                    Click="OnToggleFloatingControllerClick"
+                    ToolTipService.ToolTip="Toggle Floating Mini Player"
+                    AutomationProperties.Name="Toggle Floating Mini Player">
+                <FontIcon Glyph="&#xE7F4;" FontSize="14" />
+            </Button>
+
+            <Button x:Name="QuickMuteButton"
+                    Style="{StaticResource NavIconButtonStyle}"
+                    Click="OnQuickMuteButtonClick"
+                    ToolTipService.ToolTip="Mute / Unmute Audio"
+                    AutomationProperties.Name="Mute or Unmute">
+                <FontIcon x:Name="QuickMuteIcon" Glyph="&#xE995;" FontSize="14" />
+            </Button>
+
+            <Button x:Name="AvatarButton"
+                    Style="{StaticResource AvatarCircleButtonStyle}"
+                    Margin="4,0,2,0"
+                    ToolTipService.ToolTip="Ivory Island"
+                    AutomationProperties.Name="Ivory Island Application Info">
+                <FontIcon Glyph="&#xE77B;" FontSize="13" Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+            </Button>
+
+            <Button x:Name="MoreMenuButton"
+                    Style="{StaticResource NavIconButtonStyle}"
+                    Click="OnMoreMenuButtonClick"
+                    ToolTipService.ToolTip="Options &amp; About"
+                    AutomationProperties.Name="More Options">
+                <FontIcon Glyph="&#xE712;" FontSize="13" />
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -8,32 +8,19 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ResourceDictionary Source="ms-appx:///Themes/GlassTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Minimal Ivory Liquid Glass Palette (#F7F5EF, #FDFCF8, #242321, #77756F, #FFFFFF, #DCDAD3, #C9C4E8, #EAE8E1) -->
-            <Color x:Key="IvoryGlassBackgroundColor">#EBF7F5EF</Color>
-            <Color x:Key="IvoryGlassSecondaryColor">#FDFCF8</Color>
-            <Color x:Key="IvoryPrimaryTextColor">#242321</Color>
-            <Color x:Key="IvorySecondaryTextColor">#77756F</Color>
-            <Color x:Key="IvoryBorderColor">#FFFFFF</Color>
-            <Color x:Key="IvorySeparatorColor">#DCDAD3</Color>
+            <!-- Compatibility fallback keys aligned to White Frosted Glass -->
+            <Color x:Key="IvorySeparatorColor">#33CBD5E1</Color>
             <Color x:Key="IvoryMutedAccentColor">#C9C4E8</Color>
-            <Color x:Key="IvoryActiveSliderFillColor">#8B7CE8</Color>
-            <Color x:Key="IvoryControlBackgroundColor">#EAE8E1</Color>
-            <Color x:Key="SpotifyBrandGreenColor">#1ED760</Color>
+            <Color x:Key="IvoryActiveSliderFillColor">#8B5CF6</Color>
+            <Color x:Key="IvoryControlBackgroundColor">#80F1F5F9</Color>
 
-            <SolidColorBrush x:Key="IvoryGlassBackgroundBrush" Color="{StaticResource IvoryGlassBackgroundColor}" />
-            <SolidColorBrush x:Key="IvoryGlassSecondaryBrush" Color="{StaticResource IvoryGlassSecondaryColor}" />
-            <SolidColorBrush x:Key="IvoryPrimaryTextBrush" Color="{StaticResource IvoryPrimaryTextColor}" />
-            <SolidColorBrush x:Key="IvorySecondaryTextBrush" Color="{StaticResource IvorySecondaryTextColor}" />
-            <SolidColorBrush x:Key="IvoryBorderBrush" Color="{StaticResource IvoryBorderColor}" />
             <SolidColorBrush x:Key="IvorySeparatorBrush" Color="{StaticResource IvorySeparatorColor}" />
             <SolidColorBrush x:Key="IvoryMutedAccentBrush" Color="{StaticResource IvoryMutedAccentColor}" />
             <SolidColorBrush x:Key="IvoryActiveSliderFillBrush" Color="{StaticResource IvoryActiveSliderFillColor}" />
             <SolidColorBrush x:Key="IvoryControlBackgroundBrush" Color="{StaticResource IvoryControlBackgroundColor}" />
-            <SolidColorBrush x:Key="SpotifyBrandGreenBrush" Color="{StaticResource SpotifyBrandGreenColor}" />
-
-            <FontFamily x:Key="IvoryPrimaryFont">Segoe UI Variable Display, Segoe UI</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

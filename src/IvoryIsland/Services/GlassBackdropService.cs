@@ -20,9 +20,9 @@ public sealed class GlassBackdropService : IDisposable
     private bool _isBackdropActive;
     private bool _isDisposed;
 
-    // Minimal Ivory Liquid Glass palette constants
-    public static readonly Color IvoryGlassTint = Color.FromArgb(0xFF, 0xF7, 0xF5, 0xEF);
-    public static readonly Color IvoryGlassSecondary = Color.FromArgb(0xFF, 0xFD, 0xFC, 0xF8);
+    // White Frosted Glass palette constants (macOS-inspired pearl white)
+    public static readonly Color IvoryGlassTint = Color.FromArgb(0xFF, 0xFD, 0xFC, 0xFE);
+    public static readonly Color IvoryGlassSecondary = Color.FromArgb(0xFF, 0xF8, 0xFA, 0xFC);
 
     public bool IsNativeAcrylicActive => _isBackdropActive;
 
@@ -79,7 +79,7 @@ public sealed class GlassBackdropService : IDisposable
             : Math.Clamp(opacity, 0.78, 0.97);
 
         byte alphaByte = (byte)Math.Round(effectiveAlpha * 255.0);
-        return new SolidColorBrush(Color.FromArgb(alphaByte, 0xF7, 0xF5, 0xEF));
+        return new SolidColorBrush(Color.FromArgb(alphaByte, 0xFD, 0xFC, 0xFE));
     }
 
     public void Dispose()

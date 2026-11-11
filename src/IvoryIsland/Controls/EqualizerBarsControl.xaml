@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="IvoryIsland.Controls.EqualizerBarsControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel x:Name="BarsContainer"
+                Orientation="Horizontal"
+                Spacing="2.5"
+                VerticalAlignment="Center"
+                Height="24">
+        <Rectangle x:Name="Bar0" Width="2.5" Height="6" RadiusX="1.2" RadiusY="1.2" Fill="{StaticResource WaveformGradientBrush}" VerticalAlignment="Bottom" />
+        <Rectangle x:Name="Bar1" Width="2.5" Height="10" RadiusX="1.2" RadiusY="1.2" Fill="{StaticResource WaveformGradientBrush}" VerticalAlignment="Bottom" />
+        <Rectangle x:Name="Bar2" Width="2.5" Height="14" RadiusX="1.2" RadiusY="1.2" Fill="{StaticResource WaveformGradientBrush}" VerticalAlignment="Bottom" />
+        <Rectangle x:Name="Bar3" Width="2.5" Height="8" RadiusX="1.2" RadiusY="1.2" Fill="{StaticResource WaveformGradientBrush}" VerticalAlignment="Bottom" />
+        <Rectangle x:Name="Bar4" Width="2.5" Height="18" RadiusX="1.2" RadiusY="1.2" Fill="{StaticResource WaveformGradientBrush}" VerticalAlignment="Bottom" />
+        <Rectangle x:Name="Bar5" Width="2.5" Height="12" RadiusX="1.2" RadiusY="1.2" Fill="{StaticResource WaveformGradientBrush}" VerticalAlignment="Bottom" />
+        <Rectangle x:Name="Bar6" Width="2.5" Height="20" RadiusX="1.2" RadiusY="1.2" Fill="{StaticResource WaveformGradientBrush}" VerticalAlignment="Bottom" />
+        <Rectangle x:Name="Bar7" Width="2.5" Height="15" RadiusX="1.2" RadiusY="1.2" Fill="{StaticResource WaveformGradientBrush}" VerticalAlignment="Bottom" />
+        <Rectangle x:Name="Bar8" Width="2.5" Height="9" RadiusX="1.2" RadiusY="1.2" Fill="{StaticResource WaveformGradientBrush}" VerticalAlignment="Bottom" />
+        <Rectangle x:Name="Bar9" Width="2.5" Height="16" RadiusX="1.2" RadiusY="1.2" Fill="{StaticResource WaveformGradientBrush}" VerticalAlignment="Bottom" />
+        <Rectangle x:Name="Bar10" Width="2.5" Height="7" RadiusX="1.2" RadiusY="1.2" Fill="{StaticResource WaveformGradientBrush}" VerticalAlignment="Bottom" />
+        <Rectangle x:Name="Bar11" Width="2.5" Height="13" RadiusX="1.2" RadiusY="1.2" Fill="{StaticResource WaveformGradientBrush}" VerticalAlignment="Bottom" />
+    </StackPanel>
+</UserControl>
