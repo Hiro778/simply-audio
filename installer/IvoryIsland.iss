@@ -76,7 +76,7 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDi
 
 [Registry]
 ; Optional per-user startup entry (removed on uninstall, while %LOCALAPPDATA%\IvoryIsland user data is strictly preserved)
-Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "IvoryIsland"; ValueData: ""{app}\{#MyAppExeName}""; Flags: uninsdeletevalue; Tasks: startup
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "IvoryIsland"; ValueData: """{app}\{#MyAppExeName}"""; Flags: uninsdeletevalue; Tasks: startup
 
 [Run]
 ; Launch Ivory Island after installation finishes
