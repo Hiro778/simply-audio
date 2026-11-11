@@ -9,6 +9,8 @@
     <UseWinUI>true</UseWinUI>
     <WindowsPackageType>None</WindowsPackageType>
     <IsPackable>false</IsPackable>
+    <EnableCoreMrtTooling Condition="'$(OS)' != 'Windows_NT'">false</EnableCoreMrtTooling>
+    <EnableWindowsTargeting Condition="'$(OS)' != 'Windows_NT'">true</EnableWindowsTargeting>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>

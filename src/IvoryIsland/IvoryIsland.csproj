@@ -12,6 +12,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <EnableWindowsTargeting Condition="'$(OS)' != 'Windows_NT'">true</EnableWindowsTargeting>
 
     <!-- WinUI 3 & Unpackaged Self-Contained Single-File Deployment (Windows App SDK 1.6) -->
     <UseWinUI>true</UseWinUI>

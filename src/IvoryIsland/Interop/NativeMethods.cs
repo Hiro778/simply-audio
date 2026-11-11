@@ -14,7 +14,7 @@ internal static class NativeMethods
     public const int GWL_EXSTYLE = -20;
     public const int GWLP_WNDPROC = -4;
 
-    public const nint WS_POPUP = unchecked((nint)0x80000000);
+    public const nint WS_POPUP = unchecked((int)0x80000000);
     public const nint WS_VISIBLE = 0x10000000;
     public const nint WS_EX_TOPMOST = 0x00000008;
     public const nint WS_EX_TOOLWINDOW = 0x00000080;

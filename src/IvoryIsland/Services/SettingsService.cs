@@ -264,6 +264,14 @@ public sealed class SettingsService
 
         try
         {
+            if (directoryPath.Length >= 2 && char.IsLetter(directoryPath[0]) && directoryPath[1] == ':')
+            {
+                if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    return false;
+                }
+            }
+
             string? root = Path.GetPathRoot(directoryPath);
             if (!string.IsNullOrWhiteSpace(root))
             {

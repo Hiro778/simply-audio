@@ -1,0 +1,17 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+publish/
+
+# Visual Studio / Rider / VS Code
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+.idea/
+.vscode/
+
+# Temporary and test artifacts
+*.tmp
+*.log
