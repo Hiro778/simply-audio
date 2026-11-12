@@ -39,7 +39,7 @@ public sealed class SystemStatusService : IDisposable
 
     private void OnVolumeServiceChanged(object? sender, EventArgs e)
     {
-        Current.Volume = _volumeService.MasterVolumePercent;
+        Current.Volume = (float)_volumeService.CurrentVolumePercent;
         Current.IsMuted = _volumeService.IsMuted;
         StatusUpdated?.Invoke(this, Current);
     }
@@ -87,7 +87,7 @@ public sealed class SystemStatusService : IDisposable
         }
 
         // 3. Audio Volume from WASAPI
-        Current.Volume = _volumeService.MasterVolumePercent;
+        Current.Volume = (float)_volumeService.CurrentVolumePercent;
         Current.IsMuted = _volumeService.IsMuted;
 
         // 4. Formatted Date & Time (macOS format: "Thu Nov 12  7:45 PM")
@@ -100,7 +100,7 @@ public sealed class SystemStatusService : IDisposable
 
     public void SetVolume(float percent)
     {
-        _volumeService.SetMasterVolume(percent);
+        _volumeService.SetVolumePercent(percent);
     }
 
     public void ToggleMute()
