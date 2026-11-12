@@ -60,9 +60,9 @@ public sealed partial class ControlCenterWindow : Window, IDisposable
         VolumeSlider.ValueChanged += OnVolumeSliderValueChanged;
         BrightnessSlider.ValueChanged += (_, _) => _statusService.OpenDisplaySettings();
 
-        PlayPauseButton.Click += (_, _) => _viewModel.TogglePlayPause();
-        PrevTrackButton.Click += (_, _) => _viewModel.SkipPrevious();
-        NextTrackButton.Click += (_, _) => _viewModel.SkipNext();
+        PlayPauseButton.Click += async (_, _) => await _viewModel.TogglePlayPauseAsync();
+        PrevTrackButton.Click += async (_, _) => await _viewModel.SkipPreviousAsync();
+        NextTrackButton.Click += async (_, _) => await _viewModel.SkipNextAsync();
 
         TaskMgrButton.Click += (_, _) => EmergencyRecoveryService.LaunchTaskManager();
         TaskbarSettingsButton.Click += (_, _) => _statusService.OpenTaskbarSettings();
@@ -72,7 +72,7 @@ public sealed partial class ControlCenterWindow : Window, IDisposable
 
         _viewModel.PropertyChanged += (_, e) =>
         {
-            if (e.PropertyName is nameof(IslandViewModel.Title) or nameof(IslandViewModel.Artist) or nameof(IslandViewModel.IsPlaying))
+            if (e.PropertyName is nameof(IslandViewModel.TrackTitle) or nameof(IslandViewModel.ArtistName) or nameof(IslandViewModel.IsPlaying) or nameof(IslandViewModel.AlbumArtwork))
             {
                 UpdateMediaInfo();
             }
@@ -109,13 +109,13 @@ public sealed partial class ControlCenterWindow : Window, IDisposable
 
     private void UpdateMediaInfo()
     {
-        NowPlayingTitle.Text = string.IsNullOrWhiteSpace(_viewModel.Title) ? "Not Playing" : _viewModel.Title;
-        NowPlayingArtist.Text = string.IsNullOrWhiteSpace(_viewModel.Artist) ? "Ivory Island" : _viewModel.Artist;
-        PlayPauseGlyph.Text = _viewModel.IsPlaying ? "\uE769" : "\uE768";
+        NowPlayingTitle.Text = string.IsNullOrWhiteSpace(_viewModel.TrackTitle) ? "Not Playing" : _viewModel.TrackTitle;
+        NowPlayingArtist.Text = string.IsNullOrWhiteSpace(_viewModel.ArtistName) ? "Ivory Island" : _viewModel.ArtistName;
+        PlayPauseGlyph.Text = _viewModel.PlayPauseGlyph;
 
-        if (_viewModel.ArtworkSource is not null)
+        if (_viewModel.AlbumArtwork is not null)
         {
-            AlbumArtImage.Source = _viewModel.ArtworkSource;
+            AlbumArtImage.Source = _viewModel.AlbumArtwork;
         }
     }
 

@@ -75,13 +75,13 @@ public sealed partial class MenuBarWindow : Window, IDisposable
 
         _viewModel.PropertyChanged += (_, e) =>
         {
-            if (e.PropertyName is nameof(IslandViewModel.Title) or nameof(IslandViewModel.Artist) or nameof(IslandViewModel.IsPlaying))
+            if (e.PropertyName is nameof(IslandViewModel.TrackTitle) or nameof(IslandViewModel.ArtistName) or nameof(IslandViewModel.IsPlaying))
             {
                 UpdateMediaPill();
             }
         };
 
-        PillPlayPauseButton.Click += (_, _) => _viewModel.TogglePlayPause();
+        PillPlayPauseButton.Click += async (_, _) => await _viewModel.TogglePlayPauseAsync();
     }
 
     public void UpdateActiveAppTitle(string title)
@@ -103,18 +103,20 @@ public sealed partial class MenuBarWindow : Window, IDisposable
 
     private void UpdateMediaPill()
     {
-        if (!_settingsService.Current.ShowMediaInMenuBar || string.IsNullOrWhiteSpace(_viewModel.Title))
+        if (!_settingsService.Current.ShowMediaInMenuBar ||
+            string.IsNullOrWhiteSpace(_viewModel.TrackTitle) ||
+            _viewModel.TrackTitle == "No Active Media")
         {
             MediaPillBorder.Visibility = Visibility.Collapsed;
             return;
         }
 
         MediaPillBorder.Visibility = Visibility.Visible;
-        MediaPillText.Text = string.IsNullOrWhiteSpace(_viewModel.Artist)
-            ? _viewModel.Title
-            : $"{_viewModel.Title} — {_viewModel.Artist}";
+        MediaPillText.Text = string.IsNullOrWhiteSpace(_viewModel.ArtistName) || _viewModel.ArtistName.StartsWith("Play music", StringComparison.OrdinalIgnoreCase)
+            ? _viewModel.TrackTitle
+            : $"{_viewModel.TrackTitle} — {_viewModel.ArtistName}";
 
-        PillPlayPauseGlyph.Text = _viewModel.IsPlaying ? "\uE769" : "\uE768";
+        PillPlayPauseGlyph.Text = _viewModel.PlayPauseGlyph;
     }
 
     public void Reposition()
