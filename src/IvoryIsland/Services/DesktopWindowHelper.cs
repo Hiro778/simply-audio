@@ -11,7 +11,7 @@ namespace IvoryIsland.Services;
 /// Configures native WinUI 3 Window instances as non-activating, topmost, borderless
 /// desktop overlays with per-monitor DPI positioning and modern DWM rounded corners.
 /// </summary>
-public static class DesktopWindowHelper
+internal static class DesktopWindowHelper
 {
     public static void ConfigureOverlayWindow(
         Window window,
