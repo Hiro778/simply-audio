@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="IvoryIsland.Views.LauncherWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Ivory Desktop Launchpad">
+
+    <Grid x:Name="RootLauncherGrid" Background="Transparent" PointerPressed="OnBackgroundPointerPressed">
+        <!-- Center Frosted Glass Modal -->
+        <Border x:Name="LauncherContainerBorder"
+                Width="900"
+                Height="620"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                CornerRadius="24"
+                Background="{StaticResource PearlWindowGlassBrush}"
+                BorderBrush="{StaticResource LuminousRimBorderBrush}"
+                BorderThickness="1.5">
+            <Border.Shadow>
+                <ThemeShadow />
+            </Border.Shadow>
+
+            <Grid Padding="28">
+                <Grid.RowDefinitions>
+                    <!-- Header with Search Bar -->
+                    <RowDefinition Height="Auto" />
+                    <!-- Applications Grid -->
+                    <RowDefinition Height="*" />
+                    <!-- Footer Info -->
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- HEADER: Search Bar & Close -->
+                <Grid Grid.Row="0" Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Search Capsule -->
+                    <Border Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            Width="380"
+                            Height="40"
+                            CornerRadius="20"
+                            Background="{StaticResource IvoryGlassSecondaryBrush}"
+                            BorderBrush="{StaticResource IvoryBorderBrush}"
+                            BorderThickness="1"
+                            Padding="12,0,12,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                       Text="&#xE721;"
+                                       FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                       FontSize="14"
+                                       Foreground="{StaticResource IvorySecondaryTextBrush}"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,8,0" />
+                            <TextBox x:Name="SearchBox"
+                                     Grid.Column="1"
+                                     PlaceholderText="Search applications..."
+                                     BorderThickness="0"
+                                     Background="Transparent"
+                                     VerticalAlignment="Center"
+                                     FontSize="13.5"
+                                     FontFamily="{StaticResource IvoryPrimaryFont}"
+                                     TextChanged="OnSearchTextChanged" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Close Button -->
+                    <Button x:Name="CloseButton"
+                            Grid.Column="1"
+                            Style="{StaticResource GlassIconButtonStyle}"
+                            Width="32"
+                            Height="32"
+                            VerticalAlignment="Center"
+                            Click="OnCloseClicked">
+                        <TextBlock Text="&#xE711;"
+                                   FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                   FontSize="13"
+                                   Foreground="{StaticResource IvorySecondaryTextBrush}" />
+                    </Button>
+                </Grid>
+
+                <!-- APPLICATIONS GRID -->
+                <GridView x:Name="AppsGridView"
+                          Grid.Row="1"
+                          SelectionMode="None"
+                          IsItemClickEnabled="True"
+                          ItemClick="OnAppItemClicked"
+                          HorizontalAlignment="Center"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="6" ItemWidth="130" ItemHeight="115" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="120" Height="105" Background="Transparent" Padding="4">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <!-- App Icon Frame -->
+                                <Border Grid.Row="0"
+                                        Width="54"
+                                        Height="54"
+                                        CornerRadius="14"
+                                        Background="{StaticResource IvoryGlassSecondaryBrush}"
+                                        BorderBrush="{StaticResource IvoryBorderBrush}"
+                                        BorderThickness="1.2"
+                                        HorizontalAlignment="Center">
+                                    <TextBlock Text="&#xE71D;"
+                                               FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                               FontSize="24"
+                                               Foreground="{StaticResource IvoryAccentVioletBrush}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" />
+                                </Border>
+
+                                <!-- App Name -->
+                                <TextBlock Grid.Row="1"
+                                           Text="{Binding Name}"
+                                           FontFamily="{StaticResource IvoryPrimaryFont}"
+                                           FontSize="12"
+                                           FontWeight="Medium"
+                                           Foreground="{StaticResource IvoryPrimaryTextBrush}"
+                                           TextAlignment="Center"
+                                           TextTrimming="CharacterEllipsis"
+                                           MaxLines="2"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Top"
+                                           Margin="0,6,0,0" />
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+
+                <!-- FOOTER -->
+                <Grid Grid.Row="2" Margin="0,16,0,0">
+                    <TextBlock x:Name="AppCountTextBlock"
+                               Text="0 applications discovered"
+                               FontFamily="{StaticResource IvoryPrimaryFont}"
+                               FontSize="11.5"
+                               Foreground="{StaticResource IvoryTertiaryTextBrush}"
+                               HorizontalAlignment="Center" />
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

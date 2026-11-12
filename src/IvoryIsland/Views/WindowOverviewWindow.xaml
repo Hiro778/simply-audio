@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="IvoryIsland.Views.WindowOverviewWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Ivory Desktop Mission Control">
+
+    <Grid x:Name="RootOverviewGrid" Background="Transparent" PointerPressed="OnBackgroundPointerPressed">
+        <!-- Center Overview Container -->
+        <Border x:Name="OverviewContainerBorder"
+                Width="920"
+                Height="620"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                CornerRadius="24"
+                Background="{StaticResource PearlWindowGlassBrush}"
+                BorderBrush="{StaticResource LuminousRimBorderBrush}"
+                BorderThickness="1.5">
+            <Border.Shadow>
+                <ThemeShadow />
+            </Border.Shadow>
+
+            <Grid Padding="28">
+                <Grid.RowDefinitions>
+                    <!-- Header -->
+                    <RowDefinition Height="Auto" />
+                    <!-- Windows Grid -->
+                    <RowDefinition Height="*" />
+                    <!-- Footer Info -->
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- HEADER -->
+                <Grid Grid.Row="0" Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Mission Control"
+                                   FontFamily="{StaticResource IvoryPrimaryFont}"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                        <TextBlock Text="Select any active window to bring it into focus"
+                                   FontFamily="{StaticResource IvoryPrimaryFont}"
+                                   FontSize="12"
+                                   Foreground="{StaticResource IvorySecondaryTextBrush}"
+                                   Margin="0,2,0,0" />
+                    </StackPanel>
+
+                    <!-- Close Button -->
+                    <Button x:Name="CloseButton"
+                            Grid.Column="1"
+                            Style="{StaticResource GlassIconButtonStyle}"
+                            Width="32"
+                            Height="32"
+                            VerticalAlignment="Center"
+                            Click="OnCloseClicked">
+                        <TextBlock Text="&#xE711;"
+                                   FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                   FontSize="13"
+                                   Foreground="{StaticResource IvorySecondaryTextBrush}" />
+                    </Button>
+                </Grid>
+
+                <!-- WINDOWS GRID -->
+                <GridView x:Name="WindowsGridView"
+                          Grid.Row="1"
+                          SelectionMode="None"
+                          IsItemClickEnabled="True"
+                          ItemClick="OnWindowItemClicked"
+                          HorizontalAlignment="Center"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="4" ItemWidth="210" ItemHeight="140" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="196"
+                                    Height="126"
+                                    CornerRadius="16"
+                                    Background="{StaticResource IvoryGlassSecondaryBrush}"
+                                    BorderBrush="{StaticResource IvoryBorderBrush}"
+                                    BorderThickness="1.2"
+                                    Padding="14">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Header: App Icon & Process Name -->
+                                    <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                                        <Border Width="24" Height="24" CornerRadius="6" Background="{StaticResource IvoryAccentIceBlueBrush}">
+                                            <TextBlock Text="&#xE71D;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" Foreground="{StaticResource IvoryPrimaryTextBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBlock Text="{Binding ProcessName}" FontFamily="{StaticResource IvoryPrimaryFont}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource IvoryPrimaryTextBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" MaxWidth="120" />
+                                    </StackPanel>
+
+                                    <!-- Window Title -->
+                                    <TextBlock Grid.Row="1"
+                                               Text="{Binding Title}"
+                                               FontFamily="{StaticResource IvoryPrimaryFont}"
+                                               FontSize="12"
+                                               Foreground="{StaticResource IvorySecondaryTextBrush}"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="Wrap"
+                                               MaxLines="3"
+                                               VerticalAlignment="Top" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+
+                <!-- FOOTER -->
+                <Grid Grid.Row="2" Margin="0,16,0,0">
+                    <TextBlock x:Name="WindowsCountTextBlock"
+                               Text="0 active windows"
+                               FontFamily="{StaticResource IvoryPrimaryFont}"
+                               FontSize="11.5"
+                               Foreground="{StaticResource IvoryTertiaryTextBrush}"
+                               HorizontalAlignment="Center" />
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

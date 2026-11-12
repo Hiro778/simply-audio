@@ -134,4 +134,44 @@
         <Setter Property="FontWeight" Value="Medium" />
     </Style>
 
+    <!-- Desktop Transformation Brushes (Pearl-White Translucent Glass) -->
+    <SolidColorBrush x:Key="MenuBarGlassBrush" Color="#EEFFFFFF" />
+    <SolidColorBrush x:Key="MenuBarBorderBrush" Color="#4DCBD5E1" />
+    <SolidColorBrush x:Key="DockGlassBackgroundBrush" Color="#E0FFFFFF" />
+    <SolidColorBrush x:Key="DockGlassBorderBrush" Color="#B3FFFFFF" />
+    <SolidColorBrush x:Key="ControlCenterGlassBrush" Color="#F5FFFFFF" />
+    <SolidColorBrush x:Key="ControlCenterCardBrush" Color="#4DFFFFFF" />
+    <SolidColorBrush x:Key="ControlCenterCardBorderBrush" Color="#80FFFFFF" />
+    <SolidColorBrush x:Key="ControlCenterTileHoverBrush" Color="#33E9E6FF" />
+    <SolidColorBrush x:Key="VolumeHudGlassBrush" Color="#F2FFFFFF" />
+    <SolidColorBrush x:Key="RunningAppDotBrush" Color="#8B5CF6" />
+
+    <LinearGradientBrush x:Key="DockGlassGradientBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#F0FFFFFF" Offset="0.0" />
+        <GradientStop Color="#E0F8FAFC" Offset="0.6" />
+        <GradientStop Color="#EBF5F3FF" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <Style x:Key="MenuBarItemButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource IvoryPrimaryTextBrush}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Padding" Value="8,2,8,2" />
+        <Setter Property="Height" Value="26" />
+        <Setter Property="CornerRadius" Value="4" />
+    </Style>
+
+    <Style x:Key="DockItemButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Width" Value="52" />
+        <Setter Property="Height" Value="52" />
+        <Setter Property="CornerRadius" Value="14" />
+    </Style>
+
 </ResourceDictionary>

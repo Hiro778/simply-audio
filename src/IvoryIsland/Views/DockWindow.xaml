@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="IvoryIsland.Views.DockWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Ivory Desktop Dock">
+
+    <Grid Background="Transparent">
+        <!-- Floating macOS Dock Container -->
+        <Border x:Name="DockBorder"
+                Height="68"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                CornerRadius="22"
+                Background="{StaticResource DockGlassGradientBrush}"
+                BorderBrush="{StaticResource DockGlassBorderBrush}"
+                BorderThickness="1.2"
+                Margin="0,0,0,10">
+            <Border.Shadow>
+                <ThemeShadow />
+            </Border.Shadow>
+
+            <Grid x:Name="DockItemsHost"
+                  Padding="10,0,10,0"
+                  PointerMoved="OnDockPointerMoved"
+                  PointerExited="OnDockPointerExited">
+                <StackPanel x:Name="DockItemsStackPanel"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Spacing="8">
+
+                    <!-- 1. Finder / File Explorer -->
+                    <Grid x:Name="DockItemFinder" Tag="Finder" Width="48" Height="58" VerticalAlignment="Center">
+                        <Button x:Name="BtnFinder" Style="{StaticResource DockItemButtonStyle}" Width="48" Height="48" ToolTipService.ToolTip="Finder">
+                            <Border CornerRadius="12" Background="#E638BDF8" Width="44" Height="44">
+                                <TextBlock Text="&#xEC50;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="22" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </Button>
+                        <Ellipse Width="4" Height="4" Fill="{StaticResource RunningAppDotBrush}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,2" />
+                    </Grid>
+
+                    <!-- 2. Launchpad (Application Launcher) -->
+                    <Grid x:Name="DockItemLaunchpad" Tag="Launchpad" Width="48" Height="58" VerticalAlignment="Center">
+                        <Button x:Name="BtnLaunchpad" Style="{StaticResource DockItemButtonStyle}" Width="48" Height="48" ToolTipService.ToolTip="Launchpad">
+                            <Border CornerRadius="12" Background="#E68B5CF6" Width="44" Height="44">
+                                <TextBlock Text="&#xE74C;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </Button>
+                    </Grid>
+
+                    <!-- 3. Web Browser -->
+                    <Grid x:Name="DockItemBrowser" Tag="Browser" Width="48" Height="58" VerticalAlignment="Center">
+                        <Button x:Name="BtnBrowser" Style="{StaticResource DockItemButtonStyle}" Width="48" Height="48" ToolTipService.ToolTip="Web Browser">
+                            <Border CornerRadius="12" Background="#E60284C7" Width="44" Height="44">
+                                <TextBlock Text="&#xE774;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="22" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </Button>
+                        <Ellipse x:Name="DotBrowser" Width="4" Height="4" Fill="{StaticResource RunningAppDotBrush}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,2" />
+                    </Grid>
+
+                    <!-- 4. Windows Terminal / Command Prompt -->
+                    <Grid x:Name="DockItemTerminal" Tag="Terminal" Width="48" Height="58" VerticalAlignment="Center">
+                        <Button x:Name="BtnTerminal" Style="{StaticResource DockItemButtonStyle}" Width="48" Height="48" ToolTipService.ToolTip="Terminal">
+                            <Border CornerRadius="12" Background="#E61E293B" Width="44" Height="44">
+                                <TextBlock Text="&#xE756;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="20" Foreground="#38BDF8" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </Button>
+                        <Ellipse x:Name="DotTerminal" Width="4" Height="4" Fill="{StaticResource RunningAppDotBrush}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,2" />
+                    </Grid>
+
+                    <!-- 5. Ivory Island Media Player -->
+                    <Grid x:Name="DockItemMedia" Tag="Ivory Island" Width="48" Height="58" VerticalAlignment="Center">
+                        <Button x:Name="BtnMedia" Style="{StaticResource DockItemButtonStyle}" Width="48" Height="48" ToolTipService.ToolTip="Ivory Island Media">
+                            <Border CornerRadius="12" Background="#E6A855F7" Width="44" Height="44">
+                                <TextBlock Text="&#xE8D6;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="22" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </Button>
+                        <Ellipse Width="4" Height="4" Fill="{StaticResource RunningAppDotBrush}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,2" />
+                    </Grid>
+
+                    <!-- 6. Desktop & App Settings -->
+                    <Grid x:Name="DockItemSettings" Tag="Settings" Width="48" Height="58" VerticalAlignment="Center">
+                        <Button x:Name="BtnSettings" Style="{StaticResource DockItemButtonStyle}" Width="48" Height="48" ToolTipService.ToolTip="Settings">
+                            <Border CornerRadius="12" Background="#E664748B" Width="44" Height="44">
+                                <TextBlock Text="&#xE713;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="22" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </Button>
+                    </Grid>
+
+                    <!-- 7. Trash / Recycle Bin -->
+                    <Grid x:Name="DockItemTrash" Tag="Trash" Width="48" Height="58" VerticalAlignment="Center">
+                        <Button x:Name="BtnTrash" Style="{StaticResource DockItemButtonStyle}" Width="48" Height="48" ToolTipService.ToolTip="Trash">
+                            <Border CornerRadius="12" Background="#E694A3B8" Width="44" Height="44">
+                                <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="22" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </Button>
+                    </Grid>
+
+                    <!-- Divider Separator -->
+                    <Rectangle Width="1" Height="36" Fill="{StaticResource IvoryBorderSubtleBrush}" VerticalAlignment="Center" Margin="4,0,4,0" />
+
+                    <!-- Dynamic Running Apps StackPanel -->
+                    <StackPanel x:Name="RunningAppsStackPanel"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                Spacing="8" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

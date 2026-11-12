@@ -28,5 +28,8 @@
     <Compile Include="..\..\src\IvoryIsland\Interop\NativeMethods.cs" Link="Interop\NativeMethods.cs" />
     <Compile Include="..\..\src\IvoryIsland\Services\MediaSourceSelector.cs" Link="Services\MediaSourceSelector.cs" />
     <Compile Include="..\..\src\IvoryIsland\Services\SettingsService.cs" Link="Services\SettingsService.cs" />
+    <Compile Include="..\..\src\IvoryIsland\Services\AppDiscoveryService.cs" Link="Services\AppDiscoveryService.cs" />
+    <Compile Include="..\..\src\IvoryIsland\Services\WindowManagementService.cs" Link="Services\WindowManagementService.cs" />
+    <Compile Include="..\..\src\IvoryIsland\Services\EmergencyRecoveryService.cs" Link="Services\EmergencyRecoveryService.cs" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="IvoryIsland.Views.MenuBarWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Ivory Desktop Menu Bar">
+
+    <Grid Background="Transparent">
+        <!-- Top Glass Menu Bar -->
+        <Border x:Name="MenuBarBorder"
+                Height="32"
+                VerticalAlignment="Top"
+                Background="{StaticResource MenuBarGlassBrush}"
+                BorderBrush="{StaticResource MenuBarBorderBrush}"
+                BorderThickness="0,0,0,1">
+            <Grid Padding="12,0,12,0">
+                <Grid.ColumnDefinitions>
+                    <!-- Left: Logo, App Title, Menus -->
+                    <ColumnDefinition Width="Auto" />
+                    <!-- Center: Now Playing Media Pill -->
+                    <ColumnDefinition Width="*" />
+                    <!-- Right: System Status Items & Control Center -->
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- LEFT: LOGO, APP TITLE, MENUS -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Spacing="4">
+                    <!-- Ivory Island Apple-style Icon with MenuFlyout -->
+                    <Button x:Name="LogoButton"
+                            Style="{StaticResource MenuBarItemButtonStyle}"
+                            Padding="6,2,6,2"
+                            ToolTipService.ToolTip="Ivory Desktop Menu">
+                        <TextBlock Text="&#xE781;"
+                                   FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                   FontSize="14"
+                                   Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                        <Button.Flyout>
+                            <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                                <MenuFlyoutItem x:Name="MenuAbout" Text="About Ivory Desktop">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE897;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Name="MenuSettings" Text="Desktop Settings...">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE713;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator />
+                                <MenuFlyoutItem x:Name="MenuLaunchpad" Text="App Launcher (Launchpad)">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE74C;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Name="MenuMissionControl" Text="Window Overview (Mission Control)">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE737;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Name="MenuToggleIsland" Text="Toggle Floating Media Island">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8D6;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator />
+                                <MenuFlyoutItem x:Name="MenuTaskManager" Text="Open Task Manager" />
+                                <MenuFlyoutItem x:Name="MenuExplorer" Text="Open File Explorer" />
+                                <MenuFlyoutItem x:Name="MenuTaskbarSettings" Text="Taskbar Settings..." />
+                                <MenuFlyoutSeparator />
+                                <MenuFlyoutItem x:Name="MenuToggleMode" Text="Toggle Desktop Operating Mode" />
+                                <MenuFlyoutItem x:Name="MenuRestart" Text="Restart Ivory Desktop">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE72C;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Name="MenuExit" Text="Exit Ivory Desktop" />
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
+
+                    <!-- Active Application Title -->
+                    <TextBlock x:Name="ActiveAppTitleTextBlock"
+                               Text="Ivory Desktop"
+                               FontFamily="{StaticResource IvoryPrimaryFont}"
+                               FontSize="13"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource IvoryPrimaryTextBrush}"
+                               VerticalAlignment="Center"
+                               Margin="4,0,8,0" />
+
+                    <!-- macOS Standard Menus -->
+                    <Button x:Name="FileMenuButton" Content="File" Style="{StaticResource MenuBarItemButtonStyle}" />
+                    <Button x:Name="EditMenuButton" Content="Edit" Style="{StaticResource MenuBarItemButtonStyle}" />
+                    <Button x:Name="ViewMenuButton" Content="View" Style="{StaticResource MenuBarItemButtonStyle}" />
+                    <Button x:Name="WindowMenuButton" Content="Window" Style="{StaticResource MenuBarItemButtonStyle}" />
+                    <Button x:Name="HelpMenuButton" Content="Help" Style="{StaticResource MenuBarItemButtonStyle}" />
+                </StackPanel>
+
+                <!-- CENTER: COMPACT NOW PLAYING PILL -->
+                <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Border x:Name="MediaPillBorder"
+                            CornerRadius="12"
+                            Height="24"
+                            Padding="8,0,8,0"
+                            Background="{StaticResource IvoryGlassSecondaryBrush}"
+                            BorderBrush="{StaticResource IvoryBorderSubtleBrush}"
+                            BorderThickness="1"
+                            Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="6">
+                            <TextBlock Text="&#xE8D6;"
+                                       FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                       FontSize="11"
+                                       Foreground="{StaticResource IvoryAccentVioletBrush}"
+                                       VerticalAlignment="Center" />
+                            <TextBlock x:Name="MediaPillText"
+                                       Text="Not Playing"
+                                       FontFamily="{StaticResource IvoryPrimaryFont}"
+                                       FontSize="11.5"
+                                       FontWeight="Medium"
+                                       Foreground="{StaticResource IvoryPrimaryTextBrush}"
+                                       MaxWidth="240"
+                                       TextTrimming="CharacterEllipsis"
+                                       VerticalAlignment="Center" />
+                            <Button x:Name="PillPlayPauseButton"
+                                    Style="{StaticResource GlassIconButtonStyle}"
+                                    Width="18"
+                                    Height="18"
+                                    VerticalAlignment="Center">
+                                <TextBlock x:Name="PillPlayPauseGlyph"
+                                           Text="&#xE768;"
+                                           FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                           FontSize="10"
+                                           Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- RIGHT: STATUS INDICATORS & CONTROL CENTER -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
+                    <!-- Toggle Media Island Button -->
+                    <Button x:Name="ToggleMediaIslandButton"
+                            Style="{StaticResource MenuBarItemButtonStyle}"
+                            ToolTipService.ToolTip="Toggle Floating Media Island">
+                        <TextBlock Text="&#xE8D6;"
+                                   FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                   FontSize="13"
+                                   Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                    </Button>
+
+                    <!-- Wi-Fi Status -->
+                    <Button x:Name="WifiStatusButton"
+                            Style="{StaticResource MenuBarItemButtonStyle}"
+                            ToolTipService.ToolTip="Wi-Fi">
+                        <TextBlock x:Name="WifiGlyph"
+                                   Text="&#xE701;"
+                                   FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                   FontSize="13"
+                                   Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                    </Button>
+
+                    <!-- Battery Status -->
+                    <Button x:Name="BatteryStatusButton"
+                            Style="{StaticResource MenuBarItemButtonStyle}"
+                            ToolTipService.ToolTip="Battery">
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBlock x:Name="BatteryText"
+                                       Text="100%"
+                                       FontFamily="{StaticResource IvoryPrimaryFont}"
+                                       FontSize="12"
+                                       FontWeight="Medium"
+                                       Foreground="{StaticResource IvoryPrimaryTextBrush}"
+                                       VerticalAlignment="Center" />
+                            <TextBlock x:Name="BatteryGlyph"
+                                       Text="&#xEBAA;"
+                                       FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                       FontSize="13"
+                                       Foreground="{StaticResource IvoryPrimaryTextBrush}"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Volume Status -->
+                    <Button x:Name="VolumeStatusButton"
+                            Style="{StaticResource MenuBarItemButtonStyle}"
+                            ToolTipService.ToolTip="Sound">
+                        <TextBlock x:Name="VolumeGlyph"
+                                   Text="&#xE995;"
+                                   FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                   FontSize="13"
+                                   Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                    </Button>
+
+                    <!-- Date & Time -->
+                    <Button x:Name="ClockButton"
+                            Style="{StaticResource MenuBarItemButtonStyle}"
+                            ToolTipService.ToolTip="Date and Time">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <TextBlock x:Name="DateTextBlock"
+                                       Text="Thu Nov 12"
+                                       FontFamily="{StaticResource IvoryPrimaryFont}"
+                                       FontSize="12"
+                                       FontWeight="Normal"
+                                       Foreground="{StaticResource IvorySecondaryTextBrush}"
+                                       VerticalAlignment="Center" />
+                            <TextBlock x:Name="TimeTextBlock"
+                                       Text="7:00 PM"
+                                       FontFamily="{StaticResource IvoryPrimaryFont}"
+                                       FontSize="12"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource IvoryPrimaryTextBrush}"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Control Center Toggle Button -->
+                    <Button x:Name="ControlCenterButton"
+                            Style="{StaticResource MenuBarItemButtonStyle}"
+                            ToolTipService.ToolTip="Control Center">
+                        <TextBlock Text="&#xE706;"
+                                   FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                   FontSize="14"
+                                   Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

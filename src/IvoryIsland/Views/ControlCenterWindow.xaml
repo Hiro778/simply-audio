@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="IvoryIsland.Views.ControlCenterWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Ivory Desktop Control Center">
+
+    <Grid Background="Transparent">
+        <!-- Control Center Card Container -->
+        <Border x:Name="ControlCenterBorder"
+                Width="340"
+                Height="540"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,0,16,0"
+                CornerRadius="22"
+                Background="{StaticResource ControlCenterGlassBrush}"
+                BorderBrush="{StaticResource LuminousRimBorderBrush}"
+                BorderThickness="1.5">
+            <Border.Shadow>
+                <ThemeShadow />
+            </Border.Shadow>
+
+            <Grid Padding="16">
+                <Grid.RowDefinitions>
+                    <!-- Row 0: Connectivity & Battery/Mode (2 column cards) -->
+                    <RowDefinition Height="Auto" />
+                    <!-- Row 1: Display Brightness Slider -->
+                    <RowDefinition Height="Auto" />
+                    <!-- Row 2: Sound Volume Slider -->
+                    <RowDefinition Height="Auto" />
+                    <!-- Row 3: Now Playing Capsule Widget -->
+                    <RowDefinition Height="Auto" />
+                    <!-- Row 4: System Shortcuts & Safe Exit -->
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!-- ROW 0: CONNECTIVITY & MODE/BATTERY -->
+                <Grid Grid.Row="0" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Network Card (Wi-Fi & Bluetooth) -->
+                    <Border Grid.Column="0"
+                            CornerRadius="16"
+                            Background="{StaticResource ControlCenterCardBrush}"
+                            BorderBrush="{StaticResource ControlCenterCardBorderBrush}"
+                            BorderThickness="1"
+                            Padding="10">
+                        <StackPanel Spacing="10">
+                            <!-- Wi-Fi Row -->
+                            <Button x:Name="WifiRowButton" Style="{StaticResource GlassIconButtonStyle}" HorizontalAlignment="Stretch" Padding="2">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Border Width="30" Height="30" CornerRadius="15" Background="{StaticResource IvoryAccentIceBlueBrush}">
+                                        <TextBlock x:Name="WifiGlyph" Text="&#xE701;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" Foreground="{StaticResource IvoryPrimaryTextBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="Wi-Fi" FontFamily="{StaticResource IvoryPrimaryFont}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                                        <TextBlock x:Name="WifiSsidText" Text="Connected" FontFamily="{StaticResource IvoryPrimaryFont}" FontSize="10.5" Foreground="{StaticResource IvorySecondaryTextBrush}" TextTrimming="CharacterEllipsis" MaxWidth="80" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Bluetooth Row -->
+                            <Button x:Name="BluetoothRowButton" Style="{StaticResource GlassIconButtonStyle}" HorizontalAlignment="Stretch" Padding="2">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Border Width="30" Height="30" CornerRadius="15" Background="{StaticResource IvoryAccentIceBlueBrush}">
+                                        <TextBlock Text="&#xE702;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" Foreground="{StaticResource IvoryPrimaryTextBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="Bluetooth" FontFamily="{StaticResource IvoryPrimaryFont}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                                        <TextBlock Text="On" FontFamily="{StaticResource IvoryPrimaryFont}" FontSize="10.5" Foreground="{StaticResource IvorySecondaryTextBrush}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Mode & Battery Card -->
+                    <Border Grid.Column="2"
+                            CornerRadius="16"
+                            Background="{StaticResource ControlCenterCardBrush}"
+                            BorderBrush="{StaticResource ControlCenterCardBorderBrush}"
+                            BorderThickness="1"
+                            Padding="10">
+                        <StackPanel Spacing="10" VerticalAlignment="Center">
+                            <!-- Desktop Mode Indicator -->
+                            <Button x:Name="ModeToggleButton" Style="{StaticResource GlassIconButtonStyle}" HorizontalAlignment="Stretch" Padding="2">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Border Width="30" Height="30" CornerRadius="15" Background="{StaticResource IvoryAccentLavenderBrush}">
+                                        <TextBlock Text="&#xE7F4;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" Foreground="{StaticResource IvoryAccentVioletBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="Desktop" FontFamily="{StaticResource IvoryPrimaryFont}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                                        <TextBlock x:Name="ModeText" Text="Immersive" FontFamily="{StaticResource IvoryPrimaryFont}" FontSize="10.5" Foreground="{StaticResource IvorySecondaryTextBrush}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Battery Row -->
+                            <StackPanel Orientation="Horizontal" Spacing="8" Margin="2,0,0,0">
+                                <Border Width="30" Height="30" CornerRadius="15" Background="{StaticResource IvoryGlassSecondaryBrush}">
+                                    <TextBlock x:Name="BatteryGlyph" Text="&#xEBAA;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" Foreground="{StaticResource IvoryPrimaryTextBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="Battery" FontFamily="{StaticResource IvoryPrimaryFont}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                                    <TextBlock x:Name="BatteryPercentText" Text="100%" FontFamily="{StaticResource IvoryPrimaryFont}" FontSize="10.5" Foreground="{StaticResource IvorySecondaryTextBrush}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- ROW 1: DISPLAY BRIGHTNESS SLIDER -->
+                <Border Grid.Row="1"
+                        CornerRadius="14"
+                        Background="{StaticResource ControlCenterCardBrush}"
+                        BorderBrush="{StaticResource ControlCenterCardBorderBrush}"
+                        BorderThickness="1"
+                        Padding="12,8,12,8"
+                        Margin="0,0,0,10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="6" Margin="0,0,0,4">
+                            <TextBlock Text="&#xE706;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" Foreground="{StaticResource IvorySecondaryTextBrush}" VerticalAlignment="Center" />
+                            <TextBlock Text="Display" FontFamily="{StaticResource IvoryPrimaryFont}" FontSize="11.5" FontWeight="SemiBold" Foreground="{StaticResource IvoryPrimaryTextBrush}" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <Slider x:Name="BrightnessSlider"
+                                Grid.Row="1"
+                                Minimum="0"
+                                Maximum="100"
+                                Value="80"
+                                Margin="0,-4,0,-4" />
+                    </Grid>
+                </Border>
+
+                <!-- ROW 2: SOUND VOLUME SLIDER (WASAPI) -->
+                <Border Grid.Row="2"
+                        CornerRadius="14"
+                        Background="{StaticResource ControlCenterCardBrush}"
+                        BorderBrush="{StaticResource ControlCenterCardBorderBrush}"
+                        BorderThickness="1"
+                        Padding="12,8,12,8"
+                        Margin="0,0,0,10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Margin="0,0,0,4">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <Button x:Name="MuteButton" Style="{StaticResource GlassIconButtonStyle}" Width="20" Height="20">
+                                    <TextBlock x:Name="VolumeGlyph" Text="&#xE995;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                                </Button>
+                                <TextBlock Text="Sound" FontFamily="{StaticResource IvoryPrimaryFont}" FontSize="11.5" FontWeight="SemiBold" Foreground="{StaticResource IvoryPrimaryTextBrush}" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <TextBlock x:Name="VolumePercentText" Text="50%" FontFamily="{StaticResource IvoryPrimaryFont}" FontSize="11" Foreground="{StaticResource IvorySecondaryTextBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                        </Grid>
+                        <Slider x:Name="VolumeSlider"
+                                Grid.Row="1"
+                                Minimum="0"
+                                Maximum="100"
+                                Value="50"
+                                Margin="0,-4,0,-4" />
+                    </Grid>
+                </Border>
+
+                <!-- ROW 3: NOW PLAYING CAPSULE -->
+                <Border Grid.Row="3"
+                        CornerRadius="14"
+                        Background="{StaticResource ControlCenterCardBrush}"
+                        BorderBrush="{StaticResource ControlCenterCardBorderBrush}"
+                        BorderThickness="1"
+                        Padding="10"
+                        Margin="0,0,0,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Artwork thumbnail -->
+                        <Border Grid.Column="0" Width="40" Height="40" CornerRadius="10" Background="{StaticResource IvoryGlassSecondaryBrush}" Margin="0,0,10,0">
+                            <Image x:Name="AlbumArtImage" Stretch="UniformToFill" />
+                        </Border>
+
+                        <!-- Track Info -->
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock x:Name="NowPlayingTitle" Text="Not Playing" FontFamily="{StaticResource IvoryPrimaryFont}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource IvoryPrimaryTextBrush}" TextTrimming="CharacterEllipsis" />
+                            <TextBlock x:Name="NowPlayingArtist" Text="Ivory Island" FontFamily="{StaticResource IvoryPrimaryFont}" FontSize="10.5" Foreground="{StaticResource IvorySecondaryTextBrush}" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+
+                        <!-- Controls -->
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                            <Button x:Name="PrevTrackButton" Style="{StaticResource GlassIconButtonStyle}" Width="26" Height="26">
+                                <TextBlock Text="&#xE892;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11" Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                            </Button>
+                            <Button x:Name="PlayPauseButton" Style="{StaticResource GlassIconButtonStyle}" Width="28" Height="28">
+                                <TextBlock x:Name="PlayPauseGlyph" Text="&#xE768;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="13" Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                            </Button>
+                            <Button x:Name="NextTrackButton" Style="{StaticResource GlassIconButtonStyle}" Width="26" Height="26">
+                                <TextBlock Text="&#xE893;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11" Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- ROW 4: SYSTEM SHORTCUTS & RECOVERY -->
+                <Grid Grid.Row="4" VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="TaskMgrButton" Grid.Column="0" Style="{StaticResource GlassPillButtonStyle}" Padding="6,6,6,6" Margin="0,0,4,0" HorizontalAlignment="Stretch">
+                        <TextBlock Text="TaskMgr" FontSize="11" HorizontalAlignment="Center" />
+                    </Button>
+                    <Button x:Name="TaskbarSettingsButton" Grid.Column="1" Style="{StaticResource GlassPillButtonStyle}" Padding="6,6,6,6" Margin="2,0,2,0" HorizontalAlignment="Stretch">
+                        <TextBlock Text="Taskbar" FontSize="11" HorizontalAlignment="Center" />
+                    </Button>
+                    <Button x:Name="RecoveryExitButton" Grid.Column="2" Style="{StaticResource GlassPillButtonStyle}" Padding="6,6,6,6" Margin="4,0,0,0" HorizontalAlignment="Stretch">
+                        <TextBlock Text="Exit" FontSize="11" HorizontalAlignment="Center" Foreground="{StaticResource TrafficLightRedBrush}" />
+                    </Button>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

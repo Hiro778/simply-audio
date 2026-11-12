@@ -40,6 +40,12 @@ public sealed partial class MainWindow : Window, IDisposable
     private readonly FloatingIslandWindow _floatingIslandWindow;
     private readonly SystemTrayService _systemTrayService;
 
+    private readonly SystemStatusService _systemStatusService;
+    private readonly AppDiscoveryService _appDiscoveryService;
+    private readonly WindowManagementService _windowManagementService;
+    private readonly EmergencyRecoveryService _emergencyRecoveryService;
+    private readonly DesktopHostService _desktopHostService;
+
     private readonly ObservableCollection<TabItemModel> _tabs = new();
     private readonly List<TabItemModel> _tabHistory = new();
     private int _historyIndex = -1;
@@ -102,6 +108,22 @@ public sealed partial class MainWindow : Window, IDisposable
         });
         _systemTrayService.ExitApplicationRequested += (_, _) => _dispatcherQueue.TryEnqueue(CloseAndExit);
 
+        // 5b. Initialize Desktop Transformation Services & Windows
+        _systemStatusService = new SystemStatusService(_dispatcherQueue, _audioVolumeService);
+        _appDiscoveryService = new AppDiscoveryService();
+        _windowManagementService = new WindowManagementService();
+        _emergencyRecoveryService = new EmergencyRecoveryService();
+        _desktopHostService = new DesktopHostService(
+            _dispatcherQueue,
+            _settingsService,
+            _systemStatusService,
+            _appDiscoveryService,
+            _windowManagementService,
+            _emergencyRecoveryService,
+            _viewModel,
+            _floatingIslandWindow,
+            this);
+
         // 6. Bind Tab Views
         NowPlayingView.Bind(_viewModel);
         AudioControlView.Bind(_viewModel);
@@ -112,7 +134,17 @@ public sealed partial class MainWindow : Window, IDisposable
         InitializeTabs();
 
         // 8. Wire Window & Navigation Events
-        TrafficLights.CloseRequested += (_, _) => Close();
+        TrafficLights.CloseRequested += (_, _) =>
+        {
+            if (_settingsService.Current.OperatingMode == DesktopOperatingMode.Immersive)
+            {
+                NativeMethods.ShowWindow(_hwnd, NativeMethods.SW_HIDE);
+            }
+            else
+            {
+                Close();
+            }
+        };
         TrafficLights.MinimizeRequested += (_, _) => _presenter.Minimize();
         TrafficLights.MaximizeRequested += (_, _) => ToggleMaximizeRestore();
         TrafficLights.FullscreenRequested += (_, _) => ToggleFullscreen();
@@ -140,6 +172,11 @@ public sealed partial class MainWindow : Window, IDisposable
 
         // 9. Position and show window
         CenterAndSizeWindow();
+
+        if (_settingsService.Current.OperatingMode == DesktopOperatingMode.Immersive)
+        {
+            NativeMethods.ShowWindow(_hwnd, NativeMethods.SW_HIDE);
+        }
 
         // 10. Start media discovery
         _ = _mediaSessionManager.InitializeAsync();
@@ -467,6 +504,9 @@ public sealed partial class MainWindow : Window, IDisposable
             return;
         _isDisposed = true;
 
+        _desktopHostService.Dispose();
+        _emergencyRecoveryService.Dispose();
+        _systemStatusService.Dispose();
         _viewModel.Dispose();
         _floatingIslandWindow.Dispose();
         _systemTrayService.Dispose();

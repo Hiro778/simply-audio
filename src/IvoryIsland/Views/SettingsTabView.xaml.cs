@@ -45,6 +45,11 @@ public sealed partial class SettingsTabView : UserControl
         try
         {
             var cur = _settingsService.Current;
+            OperatingModeComboBox.SelectedIndex = cur.OperatingMode == DesktopOperatingMode.Immersive ? 0 : 1;
+            DockMagnificationCheckBox.IsChecked = cur.DockMagnification;
+            ShowMediaInMenuBarCheckBox.IsChecked = cur.ShowMediaInMenuBar;
+            ShowVolumeHudCheckBox.IsChecked = cur.ShowVolumeHud;
+
             StartWithWindowsCheckBox.IsChecked = cur.StartWithWindows;
             FullscreenAutoHideCheckBox.IsChecked = cur.AutoHideInFullscreen;
             CompactIdleCheckBox.IsChecked = cur.UseCompactIdleMode;
@@ -59,6 +64,46 @@ public sealed partial class SettingsTabView : UserControl
         {
             _isUpdatingUi = false;
         }
+    }
+
+    private void OnOperatingModeSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_isUpdatingUi || _settingsService is null)
+            return;
+
+        _settingsService.Current.OperatingMode = OperatingModeComboBox.SelectedIndex == 0
+            ? DesktopOperatingMode.Immersive
+            : DesktopOperatingMode.Standard;
+        _settingsService.Save();
+    }
+
+    private void OnDockMagnificationCheckBoxClick(object sender, RoutedEventArgs e)
+    {
+        if (_isUpdatingUi || _settingsService is null)
+            return;
+        _settingsService.Current.DockMagnification = DockMagnificationCheckBox.IsChecked == true;
+        _settingsService.Save();
+    }
+
+    private void OnShowMediaInMenuBarCheckBoxClick(object sender, RoutedEventArgs e)
+    {
+        if (_isUpdatingUi || _settingsService is null)
+            return;
+        _settingsService.Current.ShowMediaInMenuBar = ShowMediaInMenuBarCheckBox.IsChecked == true;
+        _settingsService.Save();
+    }
+
+    private void OnShowVolumeHudCheckBoxClick(object sender, RoutedEventArgs e)
+    {
+        if (_isUpdatingUi || _settingsService is null)
+            return;
+        _settingsService.Current.ShowVolumeHud = ShowVolumeHudCheckBox.IsChecked == true;
+        _settingsService.Save();
+    }
+
+    private void OnOpenTaskbarSettingsButtonClick(object sender, RoutedEventArgs e)
+    {
+        EmergencyRecoveryService.OpenTaskbarSettings();
     }
 
     private void OnGlassOpacitySliderValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)

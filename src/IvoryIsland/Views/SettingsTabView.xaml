@@ -8,6 +8,77 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <StackPanel Padding="32,24,32,32" Spacing="20" MaxWidth="800" HorizontalAlignment="Center">
 
+            <!-- Card 0: Full Desktop Transformation (macOS Experience) -->
+            <Border CornerRadius="20"
+                    Background="{StaticResource IvoryGlassSurfaceBrush}"
+                    BorderBrush="{StaticResource IvoryBorderBrush}"
+                    BorderThickness="1.2"
+                    Padding="24">
+                <StackPanel Spacing="16">
+                    <TextBlock Text="Full Desktop Transformation" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                    <TextBlock Text="Transforms Windows into a premium macOS-inspired frosted white glass desktop with global menu bar, dock, and control center." FontSize="11" Foreground="{StaticResource IvorySecondaryTextBrush}" />
+
+                    <!-- Operating Mode Selector -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Desktop Operating Mode" FontSize="13" FontWeight="Medium" Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                            <TextBlock Text="Immersive (Menu bar + Dock primary) or Standard (traditional Windows taskbar)" FontSize="11" Foreground="{StaticResource IvorySecondaryTextBrush}" />
+                        </StackPanel>
+                        <ComboBox x:Name="OperatingModeComboBox"
+                                  Grid.Column="1"
+                                  Width="180"
+                                  SelectionChanged="OnOperatingModeSelectionChanged">
+                            <ComboBoxItem Content="Immersive Desktop" Tag="Immersive" />
+                            <ComboBoxItem Content="Standard Windows" Tag="Standard" />
+                        </ComboBox>
+                    </Grid>
+
+                    <CheckBox x:Name="DockMagnificationCheckBox"
+                              Content="Enable smooth macOS Dock hover magnification"
+                              FontSize="12"
+                              Click="OnDockMagnificationCheckBoxClick" />
+
+                    <CheckBox x:Name="ShowMediaInMenuBarCheckBox"
+                              Content="Show Now Playing media pill in the global menu bar"
+                              FontSize="12"
+                              Click="OnShowMediaInMenuBarCheckBoxClick" />
+
+                    <CheckBox x:Name="ShowVolumeHudCheckBox"
+                              Content="Show bezel Volume HUD on WASAPI system volume changes"
+                              FontSize="12"
+                              Click="OnShowVolumeHudCheckBoxClick" />
+
+                    <!-- Emergency Recovery Info Box -->
+                    <Border CornerRadius="12"
+                            Background="{StaticResource IvoryAccentIceBlueBrush}"
+                            Padding="14,10,14,10"
+                            Margin="0,4,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="&#xE783;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="16" Foreground="{StaticResource IvoryPrimaryTextBrush}" VerticalAlignment="Center" Margin="0,0,10,0" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="Emergency Desktop Recovery: Press Ctrl+Alt+Escape" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource IvoryPrimaryTextBrush}" />
+                                <TextBlock Text="Instantly recovers the Windows taskbar, Explorer, and task manager if needed." FontSize="10.5" Foreground="{StaticResource IvorySecondaryTextBrush}" />
+                            </StackPanel>
+                            <Button x:Name="OpenTaskbarSettingsButton"
+                                    Grid.Column="2"
+                                    Content="Taskbar Settings"
+                                    Style="{StaticResource GlassPillButtonStyle}"
+                                    Padding="10,4,10,4"
+                                    Click="OnOpenTaskbarSettingsButtonClick" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Border>
+
             <!-- Card 1: Appearance & Glass Materials -->
             <Border CornerRadius="20"
                     Background="{StaticResource IvoryGlassSurfaceBrush}"
